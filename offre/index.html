@@ -1,0 +1,2376 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Alexandre Web Studio – Configurateur d'offre</title>
+  <meta name="description" content="Découvrez les services d'Alexandre Web Studio, composez votre offre et obtenez une estimation personnalisée.">
+  <meta name="theme-color" content="#F5F5F0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Instrument+Serif&display=swap" rel="stylesheet">
+  <style>
+/* ==========================================================================
+   ALEXANDRE WEB STUDIO — Styles
+   Fond blanc cassé, texte bleu nuit, accent bleu-vert.
+   ========================================================================== */
+:root {
+  --paper: #F5F5F0;
+  --surface: #FFFFFF;
+  --ink: #14253D;
+  --ink-2: #4A5A70;
+  --ink-3: #6E7B8C;
+  --line: #E0E3DC;
+  --line-2: #CBD1C9;
+  --teal: #1E6B66;
+  --teal-ink: #144F4B;
+  --teal-wash: #E5F0ED;
+  --teal-line: #B9D6D0;
+  --amber-ink: #7A4E0E;
+  --amber-wash: #FBF2E3;
+  --red-ink: #9B2F25;
+  --red-wash: #FBECE9;
+
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --sans: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --r-lg: 18px;
+  --r-md: 12px;
+  --r-sm: 8px;
+  --wrap: 1180px;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 84px; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 400 17px/1.55 var(--sans); font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+}
+body.has-mbar { padding-bottom: 0; }
+button, input, textarea { font: inherit; color: inherit; }
+img, svg { display: block; }
+h1, h2, h3, h4, p { margin: 0; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+b, strong { font-weight: 650; }
+
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; border-radius: 6px; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 8px; z-index: 100; }
+.skip:focus { left: 12px; }
+#content:focus { outline: none; }
+
+/* ---------- Boutons et liens ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1.5px solid transparent;
+  font-weight: 600; font-size: 16px; text-decoration: none; cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s, transform .1s;
+}
+.btn:active { transform: translateY(1px); }
+.btn--primary { background: var(--teal); color: #fff; }
+.btn--primary:hover { background: var(--teal-ink); }
+.btn--ghost { background: transparent; border-color: var(--line-2); color: var(--ink); }
+.btn--ghost:hover { border-color: var(--ink); }
+.btn--lg { min-height: 56px; padding: 0 28px; font-size: 17px; }
+.btn--sm { min-height: 40px; padding: 0 16px; font-size: 15px; }
+.link { color: var(--teal-ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; background: none; border: 0; padding: 0; cursor: pointer; }
+.link:hover { color: var(--ink); }
+.link--small { font-size: 14px; }
+
+/* ---------- En-tête et pied de page ---------- */
+.top { position: sticky; top: 0; z-index: 30; background: rgba(245, 245, 240, .92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.top__in { max-width: var(--wrap); margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.brand { background: none; border: 0; padding: 4px 0; cursor: pointer; font: 400 25px/1 var(--serif); letter-spacing: -.01em; color: var(--ink); }
+.top__nav { display: flex; align-items: center; gap: 22px; }
+.top__link { color: var(--ink-2); text-decoration: none; font-weight: 500; }
+.top__link:hover { color: var(--ink); }
+
+.foot { border-top: 1px solid var(--line); margin-top: 96px; }
+.foot__in { max-width: var(--wrap); margin: 0 auto; padding: 36px 24px 48px; display: grid; gap: 6px; color: var(--ink-2); }
+.foot__brand { font: 400 24px/1.2 var(--serif); color: var(--ink); }
+.foot__nav { display: flex; gap: 22px; flex-wrap: wrap; margin: 6px 0 4px; }
+.foot__nav .link { font-size: 16px; min-height: 44px; display: inline-flex; align-items: center; }
+.mail { font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+body.has-mbar .foot { margin-bottom: 84px; }
+
+/* ---------- Typographie commune ---------- */
+.section-title { font: 400 clamp(32px, 4vw, 44px)/1.08 var(--serif); letter-spacing: -.01em; }
+.section-lead { color: var(--ink-2); margin-top: 10px; max-width: 62ch; }
+.fine { font-size: 14px; line-height: 1.5; color: var(--ink-3); margin-top: 10px; }
+.example { font-size: 15px; color: var(--ink-2); margin-top: 12px; padding-left: 12px; border-left: 2px solid var(--teal-line); }
+
+/* ---------- Prix ---------- */
+.price { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--ink); }
+.price b { font-weight: 700; font-size: 1.15em; }
+.price--monthly { color: var(--teal-ink); }
+.price__per { font-weight: 500; font-size: .9em; }
+
+/* ---------- Badges ---------- */
+.badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font: 600 13px/1.4 var(--sans); white-space: nowrap; vertical-align: middle; }
+.badge--once { background: #EEF0EA; color: var(--ink); border: 1px solid var(--line-2); }
+.badge--required { background: var(--teal); color: #fff; }
+.badge--optional { background: var(--surface); color: var(--teal-ink); border: 1px dashed var(--teal); }
+
+/* ---------- Listes ---------- */
+.ticks li { position: relative; padding-left: 24px; margin-top: 6px; font-size: 15px; color: var(--ink-2); line-height: 1.45; }
+.ticks li::before { content: ""; position: absolute; left: 3px; top: .38em; width: 10px; height: 6px; border-left: 2px solid var(--teal); border-bottom: 2px solid var(--teal); transform: rotate(-45deg); }
+.ticks--cols { columns: 2 240px; column-gap: 28px; }
+.ticks--cols li { break-inside: avoid; margin-top: 0; margin-bottom: 7px; }
+.plain li { margin-top: 6px; padding-left: 16px; position: relative; }
+.plain li::before { content: ""; position: absolute; left: 2px; top: .7em; width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .6; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.chips li { padding: 6px 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; color: var(--ink-2); }
+
+/* ---------- Alertes ---------- */
+.alert { border-radius: var(--r-md); padding: 16px 18px; margin-top: 24px; font-size: 15px; line-height: 1.5; }
+.alert b { display: block; margin-bottom: 2px; }
+.alert--info { background: var(--teal-wash); color: var(--teal-ink); }
+.alert--error { background: var(--red-wash); color: var(--red-ink); border: 1px solid #F0C9C2; }
+
+/* ==========================================================================
+   ACCUEIL
+   ========================================================================== */
+main > .hero, main > .cats, main > .how, main > .services { max-width: var(--wrap); margin-left: auto; margin-right: auto; padding-left: 24px; padding-right: 24px; }
+
+.hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 64px; align-items: center; padding-top: 72px; padding-bottom: 80px; }
+.hero__title { font: 400 clamp(42px, 6vw, 76px)/1.02 var(--serif); letter-spacing: -.02em; max-width: 15ch; }
+.hero__lead { font-size: 20px; color: var(--ink-2); margin-top: 24px; max-width: 46ch; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.hero__note { margin-top: 22px; font-size: 15px; color: var(--ink-3); max-width: 46ch; }
+.hero__visual { position: relative; }
+.hero__caption { font-size: 14px; color: var(--ink-3); margin-bottom: 10px; padding-left: 4px; }
+.hero__visual .ticket { transform: rotate(1.2deg); box-shadow: 0 30px 60px -30px rgba(20, 37, 61, .35); }
+
+.cats { padding-top: 24px; }
+.cats__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+.cat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px; display: flex; flex-direction: column; transition: border-color .2s; }
+.cat:hover { border-color: var(--line-2); }
+.cat__head { display: flex; align-items: center; gap: 14px; }
+.cat__icon, .svcnav__icon { flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 14px; background: var(--teal-wash); }
+.cat__icon svg, .svc__icon svg, .choice__icon svg, .svcnav__icon svg { width: 34px; height: 34px; fill: none; stroke: var(--teal); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ico-fill { fill: var(--teal); }
+.cat__name { font: 400 27px/1.08 var(--serif); }
+.cat__intro { color: var(--ink-2); margin-top: 16px; font-size: 16px; }
+.cat__points { margin-top: 14px; }
+.cat__points li { font-size: 15px; }
+/* Les deux montants, côte à côte, comme dans l'estimation */
+.cat__prices { display: grid; grid-template-columns: 1fr 1fr; margin: auto 0 0; padding-top: 22px; }
+.cat__price { padding: 14px 0 0; border-top: 1px solid var(--line); }
+.cat__price--m { padding-left: 14px; border-left: 1px solid var(--line); }
+.cat__price dt { font-size: 13px; color: var(--ink-3); }
+.cat__price dd { margin: 2px 0 0; font-size: 15px; white-space: nowrap; }
+.cat__price--m dd:not(.cat__note) { color: var(--teal-ink); }
+.cat__from { color: var(--ink-3); font-size: 14px; }
+.cat__note { font-size: 13px !important; color: var(--ink-3); white-space: normal !important; min-height: 2.9em; }
+.cat__actions { display: flex; align-items: center; gap: 18px; margin-top: 22px; flex-wrap: wrap; }
+
+.how { padding-top: 96px; }
+.how__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 32px; counter-reset: s; }
+.how__item { display: flex; gap: 16px; align-items: flex-start; padding-top: 20px; border-top: 2px solid var(--ink); }
+.how__num { font: 400 40px/1 var(--serif); color: var(--teal); min-width: 28px; }
+.how__name { font-size: 18px; font-weight: 650; }
+.how__item p { color: var(--ink-2); margin-top: 4px; font-size: 16px; }
+
+/* Découvrir nos services */
+.services { padding-top: 104px; }
+.svc { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 36px 40px 32px; margin-top: 20px; }
+.svc__head { display: flex; gap: 18px; align-items: center; }
+.svc__icon { flex: none; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 16px; background: var(--teal-wash); }
+.svc__cat { color: var(--teal-ink); font-weight: 600; font-size: 15px; }
+.svc__title { font: 400 clamp(28px, 3.2vw, 38px)/1.1 var(--serif); margin-top: 2px; }
+.svc__desc { margin-top: 18px; color: var(--ink-2); max-width: 68ch; display: grid; gap: 8px; }
+.svc__block { margin-top: 0; }
+.svc__block h4 { font-size: 19px; font-weight: 650; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.svc__block > .ticks, .svc__block > .ticks--cols { margin-top: 12px; }
+.svc__cta { margin-top: 28px; }
+.svc { scroll-margin-top: 140px; }
+.fold { padding-top: 0; }
+.fold__sum { list-style: none; display: grid; grid-template-columns: 1fr auto 24px; align-items: center; gap: 4px 16px; min-height: 64px; padding: 14px 0; cursor: pointer; }
+.fold__sum::-webkit-details-marker { display: none; }
+.fold__title { font-size: 18px; font-weight: 650; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.fold__teaser { font-size: 15px; color: var(--ink-2); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.fold__chev { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--line-2); position: relative; transition: transform .2s var(--ease), border-color .15s; }
+.fold__chev::after { content: ""; position: absolute; left: 7px; top: 6px; width: 7px; height: 7px; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transform: rotate(45deg); }
+.fold__sum:hover .fold__chev { border-color: var(--ink); }
+.fold[open] .fold__chev { transform: rotate(180deg); }
+.fold__body { padding: 0 0 22px; }
+.fold__body > .ticks:first-child { margin-top: 0; }
+.fine--top { margin-top: 0; }
+.svc .fold + .fold, .svc__desc + .fold { margin-top: 0; }
+.svc__desc + .fold { margin-top: 24px; }
+.fold { border-top: 1px solid var(--line); }
+.svcnav { position: sticky; top: 64px; z-index: 20; margin: 28px -8px 0; padding: 10px 8px; background: rgba(245, 245, 240, .94); backdrop-filter: blur(8px); }
+.svcnav__in { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.svcnav__in::-webkit-scrollbar { display: none; }
+.svcnav__link { flex: none; display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 4px 16px 4px 4px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--ink); text-decoration: none; font-weight: 600; font-size: 15px; }
+.svcnav__link:hover { border-color: var(--ink); }
+.svcnav__icon { width: 38px; height: 38px; border-radius: 50%; }
+.svcnav__icon svg { width: 24px; height: 24px; }
+.packs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 16px; }
+.packs__cell { background: var(--paper); border-radius: var(--r-md); padding: 14px; display: grid; gap: 2px; }
+.packs__n { font-size: 14px; color: var(--ink-3); }
+.opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 28px; margin-top: 22px; }
+.opts li { display: grid; gap: 2px; font-size: 15px; }
+.opts span { color: var(--ink-2); }
+.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 16px; }
+.svc .plans:has(> .plan:nth-child(4)) { grid-template-columns: repeat(4, 1fr); }
+.plans--2 { grid-template-columns: repeat(2, 1fr); }
+.plans--1 { grid-template-columns: minmax(0, 560px); }
+.plan { border: 1px solid var(--line); border-radius: var(--r-md); padding: 20px; }
+.plan__name { font-weight: 650; font-size: 18px; }
+.plan__price { margin-top: 6px; }
+.plan__price--sub { margin-top: 2px; }
+.plan__inherits { font-size: 14px; color: var(--ink-3); margin-top: 10px; }
+.nfc-list { margin-top: 14px; display: grid; gap: 0; }
+.nfc-list li { display: grid; grid-template-columns: 1fr auto auto; gap: 4px 12px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.nfc-list li > span:first-child { display: grid; color: var(--ink-2); font-size: 15px; }
+.nfc-list li b { color: var(--ink); font-size: 16px; }
+.nfc-list .fine { margin: 0; }
+.combo { width: 100%; max-width: 640px; border-collapse: collapse; margin-top: 14px; font-variant-numeric: tabular-nums; font-size: 16px; }
+.combo th, .combo td { text-align: left; padding: 12px 8px; border-bottom: 1px solid var(--line); }
+.combo thead th { font-size: 14px; color: var(--ink-3); font-weight: 500; }
+.combo tbody th { font-weight: 500; }
+.combo td { white-space: nowrap; }
+.combo td:last-child { color: var(--teal-ink); }
+.services__end { margin-top: 56px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 32px 40px; border-radius: var(--r-lg); background: var(--ink); color: #fff; }
+.services__end p { font: 400 32px/1.15 var(--serif); }
+
+/* ==========================================================================
+   TICKET (estimation)
+   ========================================================================== */
+.ticket { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px 24px 20px; position: relative; }
+.ticket__title { font: 400 26px/1.1 var(--serif); margin-bottom: 6px; }
+.ticket__empty { color: var(--ink-3); font-size: 15px; padding: 10px 0 4px; }
+.ticket__sec { padding: 14px 0 4px; }
+.ticket__sec + .ticket__sec { border-top: 1px solid var(--line); }
+.ticket__secname { font-size: 14px; font-weight: 650; color: var(--ink-2); display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.tl { margin-top: 6px; }
+.tl__row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 5px 0; font-size: 15px; }
+.tl__label { display: grid; }
+.tl__label small { color: var(--ink-3); font-size: 13px; line-height: 1.35; }
+.tl__amt { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+.tl__amt--m { color: var(--teal-ink); }
+.tl__amt small { font-weight: 500; }
+.tl__pending { font-size: 13px; color: var(--amber-ink); background: var(--amber-wash); padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+.tl__none { font-size: 14px; color: var(--ink-3); white-space: nowrap; }
+.is-pending .tl__label { color: var(--ink-3); }
+.ticket__perf { position: relative; height: 22px; margin: 12px -24px 4px; }
+.ticket__perf::before { content: ""; position: absolute; left: 22px; right: 22px; top: 50%; border-top: 2px dashed var(--line-2); }
+.ticket__perf::after { content: ""; position: absolute; inset: 0; background:
+  radial-gradient(circle at 0 50%, var(--paper) 10px, transparent 10.5px),
+  radial-gradient(circle at 100% 50%, var(--paper) 10px, transparent 10.5px); }
+.ticket__totals { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 6px; }
+.ticket__total { display: grid; gap: 2px; }
+.ticket__total span { font-size: 14px; color: var(--ink-2); }
+.ticket__total strong { font: 400 34px/1.05 var(--serif); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ticket__total strong small { font: 500 15px var(--sans); }
+.ticket__total--m strong { color: var(--teal-ink); }
+.ticket__total--m { padding-left: 14px; border-left: 1px solid var(--line); }
+.ticket__note { font-size: 13px; color: var(--ink-3); margin-top: 14px; line-height: 1.45; }
+.ticket--compact { padding: 22px 22px 22px; }
+.ticket--compact .ticket__sec { padding-top: 0; }
+.ticket--compact .ticket__perf { margin-left: -22px; margin-right: -22px; }
+
+/* ==========================================================================
+   CONFIGURATEUR
+   ========================================================================== */
+.cfg { max-width: var(--wrap); margin: 0 auto; padding: 28px 24px 0; }
+.cfg__grid { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 40px; align-items: start; margin-top: 32px; }
+.cfg--final .cfg__grid { grid-template-columns: minmax(0, 860px); justify-content: center; }
+.cfg__sticky { position: sticky; top: 92px; }
+.fine--aside { padding: 0 6px; }
+
+/* Progression */
+.prog { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 14px 16px 0; overflow: hidden; }
+.prog__list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.prog__btn { display: flex; align-items: center; gap: 12px; width: 100%; padding: 6px 6px 14px; background: none; border: 0; text-align: left; border-radius: 10px; }
+button.prog__btn { cursor: pointer; }
+button.prog__btn:hover .prog__label { color: var(--ink); }
+.prog__num { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 15px; border: 1.5px solid var(--line-2); color: var(--ink-3); background: var(--surface); }
+.prog__num svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.prog__label { display: grid; font-size: 15px; font-weight: 600; color: var(--ink-3); line-height: 1.3; }
+.prog__step { font-size: 13px; font-weight: 500; }
+.is-current .prog__num { background: var(--ink); border-color: var(--ink); color: #fff; }
+.is-current .prog__label { color: var(--ink); }
+.is-done .prog__num { background: var(--teal); border-color: var(--teal); }
+.is-done .prog__label { color: var(--ink-2); }
+.prog__bar { height: 4px; background: var(--line); margin: 0 -16px; }
+.prog__bar span { display: block; height: 100%; background: var(--teal); transition: width .4s var(--ease); }
+
+/* Sous-étapes */
+.substeps { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 26px; }
+.substeps__now { font-size: 14px; color: var(--ink-3); }
+.substeps__list { display: flex; flex-wrap: wrap; gap: 6px; }
+.substep { min-height: 36px; padding: 0 14px; border-radius: 999px; border: 1px solid var(--line-2); background: transparent; font-size: 14px; font-weight: 500; color: var(--ink-2); cursor: pointer; }
+.substep:hover { border-color: var(--ink); color: var(--ink); }
+.substep.is-current { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+/* En-tête d'étape */
+.stephead__title { font: 400 clamp(32px, 4.2vw, 48px)/1.06 var(--serif); letter-spacing: -.01em; max-width: 22ch; }
+.stephead__title:focus { outline: none; }
+.stephead__lead { color: var(--ink-2); font-size: 18px; margin-top: 12px; max-width: 58ch; }
+
+.block { margin-top: 40px; }
+.block__head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.block__head h3, .block__title { font-size: 21px; font-weight: 650; }
+.block__lead { color: var(--ink-2); margin-top: 6px; font-size: 16px; }
+.included { margin-top: 28px; }
+.included__h { font-size: 14px; font-weight: 600; color: var(--ink-2); }
+
+/* Cartes de choix */
+.choice { position: relative; display: flex; gap: 14px; align-items: flex-start; padding: 18px 18px; background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--r-md); cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s; }
+.choice:hover { border-color: var(--line-2); }
+.choice.is-on { border-color: var(--teal); background: #FBFDFC; box-shadow: 0 0 0 1px var(--teal) inset; }
+.choice__input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.choice:has(.choice__input:focus-visible) { outline: 3px solid var(--teal); outline-offset: 2px; }
+.choice__mark { flex: none; width: 24px; height: 24px; margin-top: 1px; border: 2px solid var(--line-2); border-radius: 7px; background: var(--surface); display: grid; place-items: center; transition: background .15s, border-color .15s; }
+input[type="radio"] + .choice__mark { border-radius: 50%; }
+.is-on .choice__mark { background: var(--teal); border-color: var(--teal); }
+input[type="checkbox"] + .choice__mark::after { content: ""; width: 10px; height: 6px; border-left: 2.5px solid #fff; border-bottom: 2.5px solid #fff; transform: rotate(-45deg) translate(1px, -1px); opacity: 0; }
+input[type="radio"] + .choice__mark::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; opacity: 0; }
+.is-on .choice__input + .choice__mark::after { opacity: 1; }
+.choice__main { flex: 1; min-width: 0; display: grid; gap: 4px; align-content: start; }
+.choice__title { font-weight: 650; font-size: 17px; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+.choice__text { color: var(--ink-2); font-size: 15px; line-height: 1.45; }
+.choice__ex { color: var(--ink-3); font-size: 14px; line-height: 1.4; }
+.choice__meta { font-size: 14px; color: var(--teal-ink); font-weight: 600; margin-top: 6px; }
+.choice__inherits { font-size: 14px; color: var(--ink-3); }
+.choice__aside { flex: none; }
+.choice__prices { display: inline-flex; align-items: baseline; gap: 6px; flex-wrap: wrap; font-weight: 400; }
+.plus { color: var(--ink-3); }
+.choice .ticks li { font-size: 14px; margin-top: 4px; }
+.units { display: inline-block; font-size: 13px; font-weight: 600; color: var(--ink-2); background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+.is-on .units { background: var(--teal-wash); border-color: var(--teal-line); color: var(--teal-ink); }
+
+.catpick { display: grid; gap: 14px; margin-top: 32px; }
+.choice--cat { padding: 22px 64px 22px 22px; align-items: flex-start; }
+.choice--cat .choice__mark { position: absolute; top: 24px; right: 22px; margin: 0; width: 28px; height: 28px; }
+.choice--cat .choice__title { font: 400 26px/1.12 var(--serif); justify-content: flex-start; align-items: center; flex-wrap: nowrap; gap: 14px; }
+.choice--cat .choice__icon { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; background: var(--teal-wash); }
+.choice--cat .choice__icon svg { width: 32px; height: 32px; }
+.choice--cat .choice__main { gap: 8px; }
+.choice--cat .choice__text { padding-left: 66px; }
+.choice--cat .choice__meta { padding-left: 66px; margin-top: 0; }
+.choice--cat.is-on .choice__icon { background: var(--teal); }
+.choice--cat.is-on .choice__icon svg { stroke: #fff; }
+.choice--cat.is-on .ico-fill { fill: #fff; }
+
+.optgrid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+.optwrap { display: grid; align-content: start; }
+.optwrap--open { grid-column: 1 / -1; }
+.variants { border: 0; padding: 12px 0 0 38px; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.variants__h { grid-column: 1 / -1; font-size: 14px; font-weight: 600; color: var(--ink-2); }
+.choice--mini { padding: 14px; }
+.choice--mini .choice__title { font-size: 16px; }
+.optnote { display: flex; gap: 8px; font-size: 14px; color: var(--teal-ink); background: var(--teal-wash); border-radius: var(--r-sm); padding: 10px 12px; margin-top: 8px; line-height: 1.45; }
+.optnote svg, .qform__included svg, .copy-ok svg { flex: none; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; margin-top: 1px; }
+
+/* Jauge des packs : l'élément signature */
+.meterbox { margin-top: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 18px 18px 16px; }
+.meter { display: flex; gap: 6px; }
+.meter__cell { flex: 1 1 0; min-width: 0; display: grid; gap: 4px; text-align: left; }
+.meter__cell--extra { flex: .7 1 0; }
+.meter__bar { height: 10px; border-radius: 999px; background: var(--line); transition: background .25s var(--ease); }
+.meter__cell.is-on .meter__bar { background: var(--teal); }
+.meter__cell--extra.is-on .meter__bar { background: var(--teal-ink); }
+.meter__n { font-size: 13px; color: var(--ink-3); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.meter__p { font-size: 14px; font-weight: 650; font-variant-numeric: tabular-nums; color: var(--ink-3); }
+.meter__cell.is-on .meter__n, .meter__cell.is-on .meter__p { color: var(--ink); }
+.meter__status { margin-top: 14px; font-size: 16px; }
+.meterbox .fine { margin-top: 4px; }
+
+.plangrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+.plangrid--4 { grid-template-columns: repeat(2, 1fr); }
+.choice--plan { flex-direction: column; gap: 10px; padding: 20px; }
+.choice--plan .choice__mark { position: absolute; top: 20px; right: 18px; margin: 0; }
+.choice--plan .choice__title { flex-direction: column; align-items: flex-start; justify-content: flex-start; gap: 2px; padding-right: 34px; font-size: 19px; }
+.choice--plan .choice__main { width: 100%; }
+.choice--none { background: transparent; border-style: dashed; }
+.choice--none.is-on { background: var(--surface); border-style: solid; }
+.choice--wide .choice__main { gap: 6px; }
+
+/* NFC */
+.nfcs { display: grid; gap: 10px; margin-top: 18px; }
+.nfc { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: center; padding: 18px 20px; background: var(--surface); border: 1.5px solid var(--line); border-radius: var(--r-md); }
+.nfc.is-on { border-color: var(--teal); }
+.nfc__name { font-weight: 650; font-size: 17px; }
+.nfc__desc { color: var(--ink-2); font-size: 15px; margin-top: 2px; }
+.nfc__unit { margin-top: 6px; font-size: 15px; color: var(--ink-2); }
+.nfc__ctrl { display: grid; justify-items: end; gap: 6px; }
+.nfc__sub { font-size: 14px; color: var(--ink-2); font-variant-numeric: tabular-nums; min-height: 1.4em; }
+.counter { display: inline-flex; align-items: center; border: 1.5px solid var(--line-2); border-radius: 999px; background: var(--surface); }
+.counter__btn { width: 48px; height: 48px; border: 0; background: none; font-size: 22px; line-height: 1; cursor: pointer; border-radius: 50%; color: var(--ink); }
+.counter__btn:hover:not(:disabled) { background: var(--paper); }
+.counter__btn:disabled { color: var(--line-2); cursor: default; }
+.counter__input { width: 56px; height: 44px; border: 0; text-align: center; font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; background: transparent; -moz-appearance: textfield; }
+.counter__input::-webkit-outer-spin-button, .counter__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+.combo-now { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 6px 22px; align-items: baseline; padding: 16px 18px; border-radius: var(--r-md); background: var(--surface); border: 1.5px solid var(--teal); }
+.combo-now > span:first-child { flex-basis: 100%; }
+
+/* Navigation d'étape */
+.stepnav { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--line); }
+
+/* ---------- Étape 3 ---------- */
+.recap { margin-top: 28px; }
+.recap .ticket { padding: 28px 30px 24px; }
+.recap .ticket__perf { margin-left: -30px; margin-right: -30px; }
+.recap .ticket__secname { font-size: 16px; color: var(--ink); }
+.recap .tl__row { font-size: 16px; }
+.recap .ticket__total strong { font-size: 44px; }
+.fin { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+.fin__col { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 22px; }
+.fin__col--m { border-color: var(--teal-line); }
+.fin__h { font-size: 16px; font-weight: 650; }
+.fin dl { margin: 12px 0 0; }
+.fin dl > div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.fin dt { color: var(--ink-2); }
+.fin dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fin__col--m dd { color: var(--teal-ink); }
+.fin .fin__total { border-bottom: 0; padding-top: 14px; font-size: 17px; }
+.fin .fin__total dt { color: var(--ink); font-weight: 650; }
+.fin .fin__total dd { font-size: 20px; }
+.mentions { margin-top: 20px; display: grid; gap: 6px; font-size: 15px; color: var(--ink-2); padding: 16px 18px; border-left: 3px solid var(--teal); background: var(--surface); border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+
+/* Devis */
+.quote { margin-top: 48px; padding: 32px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); }
+.quote__title { font: 400 32px/1.1 var(--serif); }
+.quote__lead { color: var(--ink-2); margin-top: 8px; }
+.quote__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.qform { margin-top: 24px; }
+.qform__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 18px; }
+.field { display: grid; gap: 6px; }
+.field--wide { grid-column: 1 / -1; }
+.field label { font-weight: 600; font-size: 15px; }
+.field__opt { font-weight: 400; color: var(--ink-3); font-size: 14px; }
+.field input, .field textarea, .copy-manual textarea { width: 100%; min-height: 50px; padding: 12px 14px; border: 1.5px solid var(--line-2); border-radius: var(--r-sm); background: var(--paper); font-size: 16px; }
+.field textarea { resize: vertical; }
+.field input:focus, .field textarea:focus { outline: none; border-color: var(--teal); background: var(--surface); box-shadow: 0 0 0 3px var(--teal-wash); }
+.field.has-error input, .field.has-error textarea { border-color: var(--red-ink); }
+.field__err { color: var(--red-ink); font-size: 14px; }
+.qform__included { display: flex; gap: 8px; margin-top: 18px; font-size: 15px; color: var(--teal-ink); }
+.privacy { margin-top: 18px; font-size: 14px; color: var(--ink-2); background: var(--paper); border-radius: var(--r-sm); padding: 14px 16px; line-height: 1.5; }
+.privacy__h { font-weight: 650; color: var(--ink); margin-bottom: 2px; }
+.consent { display: flex; gap: 12px; align-items: flex-start; margin-top: 16px; font-size: 15px; color: var(--ink-2); cursor: pointer; }
+.consent input { flex: none; width: 22px; height: 22px; margin-top: 1px; accent-color: var(--teal); }
+.ready { margin-top: 24px; padding: 22px; border-radius: var(--r-md); background: var(--teal-wash); color: var(--teal-ink); display: grid; gap: 12px; justify-items: start; }
+.ready:focus { outline: 3px solid var(--teal); outline-offset: 2px; }
+.ready__h { font-weight: 700; font-size: 18px; color: var(--ink); }
+.ready p { color: var(--ink-2); }
+.ready__alt { font-size: 15px; }
+.copy-ok { display: flex; gap: 8px; align-items: center; margin-top: 14px; color: var(--teal-ink); font-weight: 600; font-size: 15px; }
+.copy-manual { margin-top: 16px; font-size: 15px; color: var(--ink-2); display: grid; gap: 8px; }
+.copy-manual textarea { font: 13px/1.5 ui-monospace, "SF Mono", Menlo, monospace; }
+
+/* ---------- Barre mobile et panneau de détail ---------- */
+.mbar, .sheet { display: none; }
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 1060px) {
+  .cfg__grid { grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; }
+  .plangrid { grid-template-columns: 1fr; }
+  .plangrid--3 { grid-template-columns: 1fr; }
+  .svc .plans:has(> .plan:nth-child(4)) { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 1060px) and (min-width: 641px) {
+  /* Tablette : cartes de catégorie en largeur, prix à droite */
+  .cats__grid { grid-template-columns: 1fr; }
+  .cat { display: grid; grid-template-columns: minmax(0, 1fr) 270px; column-gap: 32px; align-items: start; }
+  .cat > .cat__head, .cat > .cat__intro, .cat > .cat__points { grid-column: 1; }
+  .cat > .cat__prices { grid-column: 2; grid-row: 1 / span 3; margin: 0; padding-top: 0; }
+  .cat > .cat__actions { grid-column: 1 / -1; }
+}
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; gap: 40px; padding-top: 44px; padding-bottom: 56px; }
+  .hero__visual { max-width: 460px; }
+  .how__list { grid-template-columns: 1fr; }
+  .plans, .plans--2 { grid-template-columns: 1fr; }
+  .svc .plans:has(> .plan:nth-child(4)) { grid-template-columns: 1fr 1fr; }
+  .packs { grid-template-columns: repeat(3, 1fr); }
+  .opts { grid-template-columns: 1fr; }
+
+  .cfg__grid { grid-template-columns: 1fr; }
+  .cfg__aside { display: none; }
+  .mbar { display: flex; align-items: center; gap: 16px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--line-2); box-shadow: 0 -10px 30px -20px rgba(20, 37, 61, .4); }
+  .mbar__fig { display: grid; line-height: 1.2; }
+  .mbar__fig span { font-size: 12px; color: var(--ink-3); }
+  .mbar__fig b { font-size: 18px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .mbar__fig--m b { color: var(--teal-ink); }
+  .mbar .btn { margin-left: auto; }
+  .sheet:not([hidden]) { display: block; position: fixed; inset: 0; z-index: 50; }
+  .sheet__backdrop { position: absolute; inset: 0; background: rgba(20, 37, 61, .45); }
+  .sheet__panel { position: absolute; left: 0; right: 0; bottom: 0; max-height: 86vh; overflow: auto; background: var(--paper); border-radius: 20px 20px 0 0; padding: 18px 16px calc(24px + env(safe-area-inset-bottom)); }
+  .sheet__close { display: flex; margin: 0 0 12px auto; }
+  body.sheet-open { overflow: hidden; }
+}
+@media (max-width: 900px) and (min-width: 641px) {
+  .hero { grid-template-columns: minmax(0, 1fr) 330px; gap: 32px; }
+  .hero__title { font-size: 48px; }
+  .hero__visual .ticket { transform: none; }
+  .how__list { grid-template-columns: repeat(3, 1fr); gap: 20px; }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .cats__grid { grid-template-columns: 1fr; }
+  .cat { padding: 22px 20px; }
+  .cat__name { font-size: 25px; }
+  .cat__actions .btn { flex: 1 1 100%; }
+  .cat__actions .link { margin: 0 auto; }
+  .svcnav { top: 60px; margin-left: -16px; margin-right: -16px; padding-left: 16px; padding-right: 16px; }
+  .svcnav__link { font-size: 14px; padding-right: 14px; }
+  .fold__sum { grid-template-columns: 1fr 24px; }
+  .fold__teaser { grid-row: 2; grid-column: 1; text-align: left; white-space: normal; font-size: 14px; }
+  .fold__chev { grid-row: 1 / span 2; grid-column: 2; }
+  .svc__icon { width: 52px; height: 52px; }
+  .choice--cat { padding: 18px 56px 18px 16px; }
+  .choice--cat .choice__mark { top: 20px; right: 16px; }
+  .choice--cat .choice__icon { width: 44px; height: 44px; }
+  .choice--cat .choice__icon svg { width: 28px; height: 28px; }
+  .choice--cat .choice__text, .choice--cat .choice__meta { padding-left: 0; }
+  /* Cartes d'options : le nombre d'options passe sous le texte pour libérer la largeur */
+  .optgrid .choice { display: grid; grid-template-columns: 24px minmax(0, 1fr); column-gap: 14px; }
+  .optgrid .choice__aside { grid-column: 2; margin-top: 8px; }
+  .variants .choice { display: grid; grid-template-columns: 24px minmax(0, 1fr); column-gap: 14px; }
+  .variants .choice__aside { grid-column: 2; margin-top: 6px; }
+  .top__in { padding: 10px 16px; }
+  .top__link { display: none; }
+  .brand { font-size: 21px; }
+  main > .hero, main > .cats, main > .how, main > .services { padding-left: 16px; padding-right: 16px; }
+  .hero__lead { font-size: 18px; }
+  .hero__actions .btn { width: 100%; }
+  .hero__visual .ticket { transform: none; }
+  .svc { padding: 24px 18px; }
+  .svc__head { align-items: flex-start; }
+  .svc .plans:has(> .plan:nth-child(4)) { grid-template-columns: 1fr; }
+  .packs { grid-template-columns: repeat(2, 1fr); }
+  .services__end { padding: 24px; }
+  .services__end .btn { width: 100%; }
+  .nfc-list li { grid-template-columns: 1fr auto; }
+  .nfc-list li .fine { grid-column: 2; text-align: right; }
+
+  .cfg { padding: 16px 16px 0; }
+  .prog { padding: 10px 10px 0; }
+  .prog__list { gap: 4px; }
+  .prog__btn { flex-direction: column; align-items: center; text-align: center; gap: 6px; padding: 4px 2px 10px; }
+  .prog__label { font-size: 12.5px; }
+  .prog__step { display: none; }
+  .prog__bar { margin: 0 -10px; }
+  .stephead__lead { font-size: 17px; }
+  .optgrid { grid-template-columns: 1fr; }
+  .variants { grid-template-columns: 1fr; padding-left: 0; }
+  .plangrid--4 { grid-template-columns: 1fr; }
+  .choice { padding: 16px; }
+  .choice--cat .choice__title { font-size: 22px; }
+  .meter { gap: 4px; }
+  .meter__n { font-size: 11px; }
+  .meter__p { font-size: 12px; }
+  .nfc { grid-template-columns: 1fr; padding: 16px; }
+  .nfc__ctrl { grid-template-columns: auto 1fr; align-items: center; justify-items: start; gap: 12px; }
+  .nfc__sub { justify-self: end; }
+  .stepnav { flex-direction: column-reverse; align-items: stretch; }
+  .stepnav .btn { width: 100%; }
+  .ticket__total strong { font-size: 28px; }
+  .recap .ticket { padding: 22px 18px 20px; }
+  .recap .ticket__perf { margin-left: -18px; margin-right: -18px; }
+  .recap .ticket__total strong { font-size: 32px; }
+  .fin { grid-template-columns: 1fr; }
+  .quote { padding: 24px 18px; }
+  .qform__grid { grid-template-columns: 1fr; }
+  .quote__actions .btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+/* Colonne d'estimation : chiffres un peu plus compacts pour tenir dans 320–360 px */
+.cfg__aside .ticket__total strong { font-size: 30px; }
+.cfg__aside .ticket { padding-left: 22px; padding-right: 22px; }
+.cfg__aside .ticket__perf { margin-left: -22px; margin-right: -22px; }
+@media (max-width: 640px) {
+  .svcnav__icon { display: none; }
+  .svcnav__link { padding: 0 14px; min-height: 44px; }
+}
+
+/* Retrait d'un service avec annulation */
+.ticket__acts { display: inline-flex; gap: 14px; flex: none; }
+.link--muted { color: var(--ink-3); }
+.link--muted:hover { color: var(--red-ink); }
+.undo { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin: 0 0 24px; padding: 12px 12px 12px 18px; border-radius: var(--r-md); background: var(--ink); color: #fff; font-size: 15px; }
+.undo .btn { color: #fff; border-color: rgba(255,255,255,.5); }
+.undo .btn:hover { border-color: #fff; }
+
+</style>
+</head>
+<body>
+  <div id="app"></div>
+  <noscript><p style="padding:24px">Le configurateur nécessite JavaScript. Vous pouvez nous écrire à alexandre.webstudio@gmail.com.</p></noscript>
+
+  <!-- 1. Données tarifaires (seul fichier à modifier pour changer un prix) -->
+  <script>
+/* ==========================================================================
+   ALEXANDRE WEB STUDIO — DONNÉES TARIFAIRES ET RÈGLES COMMERCIALES
+   --------------------------------------------------------------------------
+   Fichier unique de référence : tous les prix, textes de prestations,
+   règles (obligatoire / facultatif / exclusif) et mentions légales.
+   Pour modifier un tarif, modifier UNIQUEMENT ce fichier.
+   Tous les montants sont des nombres entiers en CHF.
+   billing : "once" = paiement unique ; "monthly" = par mois.
+   ========================================================================== */
+(function (root) {
+  "use strict";
+
+  var PRICING = {
+    currency: "CHF",
+
+    studio: {
+      name: "Alexandre Web Studio",
+      tagline: "Des solutions digitales pensées pour développer votre activité.",
+      // Adresse de réception des demandes de devis (à confirmer).
+      quoteEmail: "alexandre.webstudio@gmail.com"
+    },
+
+    /* ---------------------------------------------------------------------
+       CATÉGORIE 1 — SOLUTIONS DIGITALES & NFC
+       --------------------------------------------------------------------- */
+    digital: {
+      id: "digital",
+      name: "Solutions digitales & NFC",
+      short: "Page digitale",
+      title: "Votre commerce, accessible en un seul geste.",
+      intro: "Une page digitale à votre image, que vos clients ouvrent en approchant leur téléphone d'un support NFC.",
+      highlights: ["Menu, avis et réseaux sociaux en un geste", "Supports NFC programmés et testés", "Pensée pour les téléphones"],
+      description: [
+        "Offrez à vos clients un accès simple et rapide à toutes les informations de votre établissement grâce à une page digitale personnalisée et aux supports NFC.",
+        "Avec un simple geste sur leur téléphone, vos clients peuvent découvrir votre menu, consulter vos avis, accéder à vos réseaux sociaux et bien plus encore."
+      ],
+      basePageIncludes: [
+        "Nom de l'établissement",
+        "Logo et identité visuelle",
+        "Présentation de l'entreprise",
+        "Coordonnées et moyens de contact",
+        "Adresse et itinéraire",
+        "Horaires d'ouverture",
+        "Design adapté aux téléphones"
+      ],
+
+      // Packs : prix de création selon le nombre d'unités d'options.
+      packs: [
+        { units: 1, name: "Pack 1", price: 99 },
+        { units: 2, name: "Pack 2", price: 139 },
+        { units: 3, name: "Pack 3", price: 179 },
+        { units: 4, name: "Pack 4", price: 219 },
+        { units: 5, name: "Pack 5", price: 259 }
+      ],
+      minUnits: 1,                 // Une page digitale nécessite au minimum 1 option.
+      extraUnitPrice: 40,          // Au-delà de 5 unités : 40 CHF par unité, à la création.
+      extraUnitMonthly: 0,         // Aucun supplément mensuel pour les unités supplémentaires.
+
+      // Options. "units" = nombre d'unités comptées dans le pack.
+      options: [
+        {
+          id: "avis", name: "Avis clients", units: 1,
+          description: "Les liens pour consulter vos avis ou en laisser un sur Google, TripAdvisor et d'autres plateformes.",
+          example: "Un client satisfait laisse un avis Google en deux secondes."
+        },
+        {
+          id: "reseaux", name: "Réseaux sociaux", units: 1,
+          description: "Instagram, Facebook, TikTok et vos autres réseaux, regroupés au même endroit.",
+          example: "Plusieurs réseaux comptent comme une seule option."
+        },
+        {
+          id: "lienSite", name: "Lien vers votre site Internet", units: 1,
+          description: "Un accès direct à votre site Internet.",
+          example: "La création d'un nouveau site est une prestation distincte."
+        },
+        {
+          id: "galerie", name: "Galerie photos", units: 1,
+          description: "Des photos de votre établissement, de vos produits ou de vos réalisations.",
+          example: "Vos plats du jour, votre terrasse, vos créations."
+        },
+        {
+          id: "fidelisation", name: "Fidélisation", units: 1,
+          description: "Un accès à votre programme de fidélité, depuis votre page.",
+          example: "Le programme de fidélité lui-même est proposé dans « Fidélisation & marketing ».",
+          note: "Le programme de fidélité lui-même est facturé séparément, dans la catégorie Fidélisation & marketing automatisé. Cette option reste disponible si vous avez déjà votre propre programme."
+        },
+        {
+          id: "commande", name: "Commande en ligne", units: 1,
+          description: "Des liens vers Uber Eats, Just Eat ou d'autres plateformes de commande.",
+          example: "Plusieurs plateformes comptent comme une seule option."
+        },
+        {
+          id: "menu", name: "Menu", units: 1,
+          description: "Votre menu ou votre carte, avec les produits, les catégories et les prix.",
+          example: "Vos clients consultent la carte depuis leur table.",
+          // Variantes exclusives : le client en choisit une seule.
+          variants: [
+            { id: "simple", name: "Menu simple", units: 1,
+              description: "Produits, catégories et prix." },
+            { id: "avance", name: "Menu interactif avancé", units: 2,
+              description: "Personnalisation des produits, suppléments et choix personnalisés. Compte pour 2 options." }
+          ],
+          defaultVariant: "simple"
+        }
+      ],
+
+      // Abonnements : obligatoires, un seul choix, aucune présélection.
+      subscriptionRequired: true,
+      subscriptions: [
+        {
+          id: "base", name: "Base", price: 29,
+          includes: ["Hébergement de la page", "Maintenance technique", "Sécurité et certificat SSL", "Correction des bugs", "Support standard"]
+        },
+        {
+          id: "plus", name: "Plus", price: 49, inherits: "Tout ce qui est inclus dans Base, avec :",
+          includes: ["Jusqu'à 2 petites modifications par mois", "Support prioritaire"]
+        },
+        {
+          id: "premium", name: "Premium", price: 79, inherits: "Tout ce qui est inclus dans Plus, avec :",
+          includes: ["Jusqu'à 5 petites modifications par mois", "Support très prioritaire", "Vérification de la page et suggestions d'amélioration tous les trois mois"]
+        }
+      ],
+      smallChangesNote: "Les petites modifications comprennent les changements de texte, d'image, de prix ou de lien. Les nouvelles fonctionnalités et les refontes sont facturées séparément.",
+      complexNote: "Les développements complexes font l'objet d'un devis particulier.",
+
+      // Supports physiques NFC : paiement unique, uniquement avec une page digitale.
+      nfc: {
+        requires: "page",
+        intro: "Vos clients approchent simplement leur téléphone du support pour ouvrir votre page digitale.",
+        includes: ["Programmation de la puce", "Association avec la page digitale", "Test du fonctionnement", "Livraison prête à utiliser"],
+        deliveryNote: "Programmés et testés avant livraison.",
+        maxQuantity: 999,
+        items: [
+          { id: "puce", name: "Puce NFC / autocollant", price: 10,
+            description: "Petit support autocollant à placer sur une surface : comptoir, table, vitrine." },
+          { id: "carteBlanche", name: "Carte NFC blanche", price: 15,
+            description: "Carte NFC classique et discrète." },
+          { id: "carteLogo", name: "Carte avec logo", price: 25,
+            description: "Carte personnalisée avec le logo de votre commerce." },
+          { id: "cartePerso", name: "Carte entièrement personnalisée", price: 35,
+            description: "Carte avec votre logo, vos couleurs, votre texte et un design personnalisé." }
+        ]
+      }
+    },
+
+    /* ---------------------------------------------------------------------
+       CATÉGORIE 2 — FIDÉLISATION & MARKETING AUTOMATISÉ
+       --------------------------------------------------------------------- */
+    loyalty: {
+      id: "loyalty",
+      name: "Fidélisation & marketing automatisé",
+      short: "Fidélisation",
+      title: "Transformez vos clients occasionnels en clients fidèles.",
+      intro: "Un programme de fidélité simple et, si vous le souhaitez, des messages automatiques pour donner envie à vos clients de revenir.",
+      highlights: ["Carte à tampons ou programme à points", "Messagerie automatisée en option (canal prévu : e-mail)", "Progression enregistrée numériquement"],
+      description: [
+        "Encouragez vos clients à revenir grâce à des programmes de fidélité simples à utiliser et à des messages automatisés qui entretiennent la relation avec votre clientèle.",
+        "Deux systèmes de fidélité sont proposés : les tampons ou les points. Vous pouvez y ajouter la messagerie automatisée."
+      ],
+      // Programmes strictement exclusifs : tampons OU points.
+      programs: [
+        {
+          id: "tampons", name: "Carte de fidélité à tampons", shortName: "Carte à tampons",
+          creation: 99, monthly: 19,
+          how: ["Le client reçoit un tampon après un achat ou une visite", "Sa progression est enregistrée numériquement", "Vous définissez la récompense", "Le client peut consulter ses tampons"],
+          example: "Après 10 achats, le client obtient un produit offert."
+        },
+        {
+          id: "points", name: "Programme de fidélité à points", shortName: "Programme à points",
+          creation: 179, monthly: 29,
+          how: ["Le client accumule des points selon ses achats", "Vous définissez les règles d'attribution", "Les points s'échangent contre des récompenses", "Le client peut consulter son solde"],
+          example: "1 CHF dépensé = 1 point. À partir de 100 points, le client obtient une récompense."
+        }
+      ],
+      messaging: {
+        id: "messagerie", name: "Messagerie automatisée", shortName: "Messagerie automatisée",
+        creation: 149, monthly: 39,
+        channel: "E-mail",
+        how: ["Messages de bienvenue", "Rappels automatiques", "Messages promotionnels", "Campagnes destinées aux clients inscrits"],
+        example: "un e-mail de bienvenue pour chaque nouveau client inscrit.",
+        standaloneNote: "Utilisable seule ou avec l'un des deux programmes de fidélité."
+      },
+      subscriptionRequired: true,
+      notices: [
+        "Canal prévu : e-mail. Les modalités d'envoi (outil utilisé, volumes) seront précisées sur le devis.",
+        "Approcher un téléphone d'un support NFC ne transmet pas les coordonnées du client.",
+        "Pour recevoir des messages, vos clients doivent eux-mêmes communiquer leurs coordonnées et donner leur accord lorsque c'est requis.",
+        "Les éventuels coûts de services tiers (par exemple un fournisseur d'envoi d'e-mails) ne sont pas compris dans les tarifs affichés."
+      ]
+    },
+
+    /* ---------------------------------------------------------------------
+       CATÉGORIE 3 — CRÉATION DE SITES INTERNET
+       --------------------------------------------------------------------- */
+    website: {
+      id: "website",
+      name: "Création de sites Internet",
+      short: "Site Internet",
+      title: "Donnez à votre entreprise une véritable présence sur Internet.",
+      intro: "Un site professionnel et moderne, lisible sur téléphone, tablette et ordinateur.",
+      highlights: ["D'une à dix pages selon la formule", "Design personnalisé", "Maintenance au choix, ou aucune"],
+      description: [
+        "Nous concevons des sites Internet professionnels, modernes et adaptés à tous les écrans, afin de présenter votre activité et de développer votre présence en ligne."
+      ],
+      formulas: [
+        { id: "essentiel", name: "Site Essentiel", price: 390,
+          includes: ["Site vitrine d'une page", "Design personnalisé", "Présentation de l'entreprise", "Coordonnées et informations de contact", "Adaptation aux téléphones, tablettes et ordinateurs"] },
+        { id: "professionnel", name: "Site Professionnel", price: 690,
+          includes: ["Jusqu'à 5 pages", "Design personnalisé", "Formulaire de contact", "Galerie photos", "Référencement naturel de base", "Adaptation à tous les écrans"] },
+        { id: "premium", name: "Site Premium", price: 1490,
+          includes: ["Jusqu'à 10 pages", "Design plus poussé et personnalisé", "Animations et éléments interactifs", "Fonctionnalités avancées selon le projet", "Référencement naturel de base", "Adaptation à tous les écrans"] }
+      ],
+      complexNote: "Les développements complexes et les fonctionnalités spécifiques font l'objet d'un devis personnalisé.",
+      // Maintenance facultative : choix explicite obligatoire, "none" possible.
+      maintenanceRequired: false,
+      maintenances: [
+        { id: "none", name: "Sans maintenance", price: 0,
+          includes: ["Vous gérez vous-même votre site", "Hébergement et nom de domaine à votre charge"] },
+        { id: "base", name: "Base", price: 19,
+          includes: ["Hébergement", "Sécurité", "Sauvegardes", "Maintenance technique"] },
+        { id: "plus", name: "Plus", price: 39, inherits: "Tout ce qui est compris dans Base, avec :",
+          includes: ["Petites modifications régulières", "Support prioritaire"] },
+        { id: "premium", name: "Premium", price: 69, inherits: "Tout ce qui est compris dans Plus, avec :",
+          includes: ["Modifications plus fréquentes", "Suivi du site"] }
+      ],
+      notices: [
+        "Sans maintenance, vous gérez vous-même l'hébergement et le nom de domaine.",
+        "Avec une maintenance, l'hébergement est compris.",
+        "Le nom de domaine reste à votre charge dans tous les cas ; son renouvellement est facturé séparément."
+      ]
+    },
+
+    /* ---------------------------------------------------------------------
+       MENTIONS
+       --------------------------------------------------------------------- */
+    notices: {
+      vat: "Prix indicatifs en CHF. Le traitement de la TVA sera précisé sur le devis selon la situation du client et la réglementation applicable.",
+      initialTotal: "Le total initial correspond aux frais de création et aux achats ponctuels. Ce n'est pas une mensualité.",
+      monthly: "Les abonnements mensuels sont facturés à part. Les conditions de résiliation sont précisées dans les conditions commerciales.",
+      indicative: "Cette estimation est indicative. Un devis définitif vous sera confirmé après étude de votre projet.",
+      privacy: "Les informations de ce formulaire servent uniquement à traiter votre demande de devis et à vous recontacter à ce sujet. Elles ne sont pas vendues. Vous pouvez demander à tout moment leur consultation ou leur suppression en écrivant à {email}.",
+      // Rappels affichés dans le récapitulatif final selon les services choisis.
+      contextual: {
+        messaging: "Messagerie automatisée : canal prévu e-mail ; modalités d'envoi précisées sur le devis. Les éventuels coûts de services tiers (fournisseur d'envoi) ne sont pas compris.",
+        website: "Site Internet : le nom de domaine et son renouvellement restent à votre charge. Sans maintenance, l'hébergement l'est aussi."
+      },
+      marketingConsent: "J'accepte de recevoir occasionnellement des nouvelles et des offres d'Alexandre Web Studio par e-mail. Je peux me désinscrire à tout moment."
+    }
+  };
+
+  if (typeof module !== "undefined" && module.exports) module.exports = PRICING;
+  root.AWS = root.AWS || {};
+  root.AWS.PRICING = PRICING;
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+  <!-- 2. Règles de calcul -->
+  <script>
+/* ==========================================================================
+   MOTEUR DE CALCUL — fonctions pures, sans aucun prix en dur.
+   Entrée : sélection du client + données tarifaires (pricing.js).
+   Sortie : lignes détaillées par catégorie + totaux séparés
+            (paiement unique / mensuel).
+   ========================================================================== */
+(function (root) {
+  "use strict";
+
+  /* ----- Sélection vide (état initial) ----- */
+  function emptySelection(pricing) {
+    var nfc = {};
+    pricing.digital.nfc.items.forEach(function (it) { nfc[it.id] = 0; });
+    return {
+      categories: { digital: false, loyalty: false, website: false },
+      digital: { options: {}, subscription: null, nfc: nfc },
+      loyalty: { program: null, messaging: false },
+      website: { formula: null, maintenance: null }
+    };
+  }
+
+  /* ----- Utilitaires ----- */
+  function findById(list, id) {
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
+
+  function sanitizeQuantity(value, max) {
+    var n = parseInt(value, 10);
+    if (!isFinite(n) || n < 0) return 0;
+    if (max && n > max) return max;
+    return n;
+  }
+
+  // 1043 -> "1 043" (espace insécable fine par défaut)
+  function formatAmount(n, sep) {
+    sep = sep === undefined ? " " : sep;
+    var s = String(Math.round(Math.abs(n)));
+    var out = s.replace(/\B(?=(\d{3})+(?!\d))/g, sep);
+    return (n < 0 ? "-" : "") + out;
+  }
+  function formatCHF(n, sep) {
+    var nb = sep === undefined ? " " : (sep === " " ? " " : sep);
+    return formatAmount(n, sep) + nb + "CHF";
+  }
+
+  /* ----- Page digitale : options et pack ----- */
+  // Retourne les options choisies avec leur nombre d'unités.
+  function digitalChosenOptions(digitalSel, pricing) {
+    var chosen = [];
+    pricing.digital.options.forEach(function (opt) {
+      var v = digitalSel.options[opt.id];
+      if (!v) return;
+      if (opt.variants) {
+        var variant = findById(opt.variants, v === true ? opt.defaultVariant : v) ||
+                      findById(opt.variants, opt.defaultVariant);
+        chosen.push({ id: opt.id, name: variant.name, units: variant.units, variant: variant.id });
+      } else {
+        chosen.push({ id: opt.id, name: opt.name, units: opt.units });
+      }
+    });
+    return chosen;
+  }
+
+  // Règle : prix du pack (1 à 5 unités) + 40 CHF par unité au-delà de 5.
+  function packFor(units, pricing) {
+    var d = pricing.digital;
+    if (units < d.minUnits) return null;
+    var maxPack = d.packs[d.packs.length - 1];
+    var packUnits = Math.min(units, maxPack.units);
+    var pack = null;
+    for (var i = 0; i < d.packs.length; i++) if (d.packs[i].units === packUnits) pack = d.packs[i];
+    var extraUnits = Math.max(0, units - maxPack.units);
+    var extraCost = extraUnits * d.extraUnitPrice;
+    return { pack: pack, units: units, extraUnits: extraUnits, extraCost: extraCost, creation: pack.price + extraCost };
+  }
+
+  /* ----- Calcul complet ----- */
+  function computeQuote(sel, pricing) {
+    var sections = [];
+    var totals = {
+      pageCreation: 0, supports: 0, loyaltyCreation: 0, siteCreation: 0,
+      initial: 0, monthly: 0,
+      monthlyBy: { digital: 0, loyalty: 0, website: 0 }
+    };
+
+    /* Catégorie 1 */
+    if (sel.categories.digital) {
+      var d = pricing.digital;
+      var sec = { id: "digital", name: d.name, lines: [] };
+      var chosen = digitalChosenOptions(sel.digital, pricing);
+      var units = chosen.reduce(function (a, o) { return a + o.units; }, 0);
+      var pk = packFor(units, pricing);
+
+      if (pk) {
+        sec.lines.push({
+          key: "pack", group: "creation", billing: "once",
+          label: pk.pack.name + " (" + pk.pack.units + " option" + (pk.pack.units > 1 ? "s" : "") + ")",
+          detail: chosen.map(function (o) { return o.name + (o.units > 1 ? " (2 options)" : ""); }).join(", "),
+          amount: pk.pack.price
+        });
+        if (pk.extraUnits > 0) {
+          sec.lines.push({
+            key: "extra", group: "creation", billing: "once",
+            label: pk.extraUnits + " option" + (pk.extraUnits > 1 ? "s" : "") + " supplémentaire" + (pk.extraUnits > 1 ? "s" : ""),
+            detail: pk.extraUnits + " × " + formatCHF(d.extraUnitPrice),
+            qty: pk.extraUnits, unitPrice: d.extraUnitPrice,
+            amount: pk.extraCost
+          });
+        }
+        totals.pageCreation = pk.creation;
+      } else {
+        sec.lines.push({ key: "pack", group: "creation", billing: "once", pending: true,
+          label: "Page digitale", detail: "Choisissez au moins une option", amount: null });
+      }
+
+      var sub = findById(d.subscriptions, sel.digital.subscription);
+      if (sub) {
+        sec.lines.push({ key: "sub", group: "subscription", billing: "monthly",
+          label: "Abonnement " + sub.name, detail: "Obligatoire", amount: sub.price });
+        totals.monthlyBy.digital = sub.price;
+      } else {
+        sec.lines.push({ key: "sub", group: "subscription", billing: "monthly", pending: true,
+          label: "Abonnement", detail: "À choisir (obligatoire)", amount: null });
+      }
+
+      // Supports NFC : uniquement avec une page digitale (catégorie 1 active).
+      d.nfc.items.forEach(function (it) {
+        var q = sanitizeQuantity(sel.digital.nfc[it.id], d.nfc.maxQuantity);
+        if (q > 0) {
+          var amt = q * it.price;
+          sec.lines.push({ key: "nfc-" + it.id, group: "supports", billing: "once",
+            label: it.name, detail: q + " × " + formatCHF(it.price),
+            qty: q, unitPrice: it.price, amount: amt });
+          totals.supports += amt;
+        }
+      });
+
+      sec.creation = totals.pageCreation;
+      sec.supports = totals.supports;
+      sec.monthly = totals.monthlyBy.digital;
+      sections.push(sec);
+    }
+
+    /* Catégorie 2 */
+    if (sel.categories.loyalty) {
+      var l = pricing.loyalty;
+      var sec2 = { id: "loyalty", name: l.name, lines: [] };
+      var prog = findById(l.programs, sel.loyalty.program); // tampons OU points, jamais les deux
+      var items = [];
+      if (prog) items.push(prog);
+      if (sel.loyalty.messaging) items.push(l.messaging);
+
+      items.forEach(function (it) {
+        sec2.lines.push({ key: it.id, group: "creation", billing: "once",
+          label: it.shortName, detail: "Création", amount: it.creation });
+        sec2.lines.push({ key: it.id + "-sub", group: "subscription", billing: "monthly",
+          label: "Abonnement " + it.shortName.toLowerCase(), detail: "Obligatoire", amount: it.monthly });
+        totals.loyaltyCreation += it.creation;
+        totals.monthlyBy.loyalty += it.monthly;
+      });
+      if (!items.length) {
+        sec2.lines.push({ key: "none", group: "creation", billing: "once", pending: true,
+          label: "Fidélisation", detail: "Choisissez au moins un service", amount: null });
+      }
+      sec2.creation = totals.loyaltyCreation;
+      sec2.supports = 0;
+      sec2.monthly = totals.monthlyBy.loyalty;
+      sections.push(sec2);
+    }
+
+    /* Catégorie 3 */
+    if (sel.categories.website) {
+      var w = pricing.website;
+      var sec3 = { id: "website", name: w.name, lines: [] };
+      var f = findById(w.formulas, sel.website.formula);
+      if (f) {
+        sec3.lines.push({ key: "formula", group: "creation", billing: "once",
+          label: f.name, detail: "Création", amount: f.price });
+        totals.siteCreation = f.price;
+      } else {
+        sec3.lines.push({ key: "formula", group: "creation", billing: "once", pending: true,
+          label: "Site Internet", detail: "Choisissez une formule", amount: null });
+      }
+      var m = findById(w.maintenances, sel.website.maintenance);
+      if (m && m.id === "none") {
+        sec3.lines.push({ key: "maint", group: "subscription", billing: "monthly",
+          label: "Sans maintenance", detail: "Aucun abonnement", amount: 0, none: true });
+      } else if (m) {
+        sec3.lines.push({ key: "maint", group: "subscription", billing: "monthly",
+          label: "Maintenance " + m.name, detail: "Facultative", amount: m.price });
+        totals.monthlyBy.website = m.price;
+      } else {
+        sec3.lines.push({ key: "maint", group: "subscription", billing: "monthly", pending: true,
+          label: "Maintenance", detail: "À choisir (ou sans maintenance)", amount: null });
+      }
+      sec3.creation = totals.siteCreation;
+      sec3.supports = 0;
+      sec3.monthly = totals.monthlyBy.website;
+      sections.push(sec3);
+    }
+
+    totals.initial = totals.pageCreation + totals.supports + totals.loyaltyCreation + totals.siteCreation;
+    totals.monthly = totals.monthlyBy.digital + totals.monthlyBy.loyalty + totals.monthlyBy.website;
+
+    return { sections: sections, totals: totals, units: sel.categories.digital ? unitsOf(sel, pricing) : 0 };
+  }
+
+  function unitsOf(sel, pricing) {
+    return digitalChosenOptions(sel.digital, pricing).reduce(function (a, o) { return a + o.units; }, 0);
+  }
+
+  /* ----- Validation par section ----- */
+  // Retourne la liste des éléments manquants, par section.
+  function validate(sel, pricing) {
+    var issues = { categories: [], digital: [], nfc: [], loyalty: [], website: [] };
+    var c = sel.categories;
+    if (!c.digital && !c.loyalty && !c.website) issues.categories.push("Choisissez au moins un service.");
+
+    if (c.digital) {
+      if (unitsOf(sel, pricing) < pricing.digital.minUnits)
+        issues.digital.push("Choisissez au moins une option pour votre page digitale.");
+      if (!findById(pricing.digital.subscriptions, sel.digital.subscription))
+        issues.digital.push("Choisissez un abonnement pour votre page digitale (obligatoire).");
+    }
+    if (c.loyalty) {
+      if (!findById(pricing.loyalty.programs, sel.loyalty.program) && !sel.loyalty.messaging)
+        issues.loyalty.push("Choisissez un programme de fidélité, la messagerie automatisée, ou les deux.");
+    }
+    if (c.website) {
+      if (!findById(pricing.website.formulas, sel.website.formula))
+        issues.website.push("Choisissez une formule de site Internet.");
+      if (!findById(pricing.website.maintenances, sel.website.maintenance))
+        issues.website.push("Indiquez si vous souhaitez une maintenance (vous pouvez choisir « Sans maintenance »).");
+    }
+    issues.all = [].concat(issues.categories, issues.digital, issues.nfc, issues.loyalty, issues.website);
+    issues.ok = issues.all.length === 0;
+    return issues;
+  }
+
+  /* ----- Contrôle de cohérence de la configuration tarifaire ----- */
+  // Détecte une erreur de saisie dans pricing.js (prix négatif, pack manquant, identifiant en double…).
+  function checkPricing(pricing) {
+    var errs = [];
+    function money(v, where) { if (typeof v !== "number" || !isFinite(v) || v < 0 || Math.round(v) !== v) errs.push("Montant invalide : " + where + " = " + v); }
+    function uniq(list, where) {
+      var seen = {};
+      list.forEach(function (x) { if (seen[x.id]) errs.push("Identifiant en double dans " + where + " : " + x.id); seen[x.id] = true; });
+    }
+    var d = pricing.digital;
+    d.packs.forEach(function (p, i) {
+      money(p.price, p.name);
+      if (p.units !== i + 1) errs.push("Les packs doivent couvrir 1, 2, 3… options dans l'ordre (" + p.name + ")");
+      if (i > 0 && p.price <= d.packs[i - 1].price) errs.push("Prix des packs non croissants (" + p.name + ")");
+    });
+    money(d.extraUnitPrice, "option supplémentaire");
+    uniq(d.options, "options"); uniq(d.subscriptions, "abonnements page"); uniq(d.nfc.items, "supports NFC");
+    d.options.forEach(function (o) {
+      if (o.variants) { uniq(o.variants, "variantes " + o.id); if (!findById(o.variants, o.defaultVariant)) errs.push("Variante par défaut inconnue : " + o.id); }
+    });
+    d.subscriptions.forEach(function (s) { money(s.price, "abonnement " + s.id); });
+    d.nfc.items.forEach(function (s) { money(s.price, "NFC " + s.id); });
+    var l = pricing.loyalty;
+    uniq(l.programs, "programmes de fidélité");
+    l.programs.concat([l.messaging]).forEach(function (x) { money(x.creation, x.id + " création"); money(x.monthly, x.id + " abonnement"); });
+    var w = pricing.website;
+    uniq(w.formulas, "formules de site"); uniq(w.maintenances, "maintenances");
+    w.formulas.forEach(function (f) { money(f.price, f.id); });
+    w.maintenances.forEach(function (m) { money(m.price, "maintenance " + m.id); });
+    if (!findById(w.maintenances, "none") || findById(w.maintenances, "none").price !== 0) errs.push("L'option « Sans maintenance » doit exister et valoir 0.");
+    return errs;
+  }
+
+  var api = {
+    checkPricing: checkPricing,
+    emptySelection: emptySelection,
+    sanitizeQuantity: sanitizeQuantity,
+    digitalChosenOptions: digitalChosenOptions,
+    packFor: packFor,
+    computeQuote: computeQuote,
+    validate: validate,
+    formatAmount: formatAmount,
+    formatCHF: formatCHF,
+    findById: findById
+  };
+  if (typeof module !== "undefined" && module.exports) module.exports = api;
+  root.AWS = root.AWS || {};
+  root.AWS.calc = api;
+})(typeof window !== "undefined" ? window : globalThis);
+
+</script>
+  <script>
+/* ==========================================================================
+   ÉTAT DE L'APPLICATION
+   - selection : les choix du client (seule donnée utilisée par le calcul)
+   - ui : navigation, formulaire, affichage des erreurs
+   Les sélections sont conservées pendant la navigation et, si le navigateur
+   le permet, après un rechargement (sessionStorage, sans donnée personnelle).
+   ========================================================================== */
+(function (root) {
+  "use strict";
+  var P = root.AWS.PRICING, C = root.AWS.calc;
+  var KEY = "aws-configurateur-v1";
+  var listeners = [];
+
+  function initialUi() {
+    return {
+      view: "home",          // home | config
+      step: 1,               // 1 | 2 | 3
+      sub: 0,                // index de la sous-étape de l'étape 2
+      showErrors: {},        // section -> true quand le client a tenté de continuer
+      quoteOpen: false,
+      quoteReady: false,
+      quote: { name: "", company: "", email: "", phone: "", message: "", marketing: false },
+      quoteErrors: {}
+    };
+  }
+
+  function load() {
+    var sel = C.emptySelection(P);
+    try {
+      var raw = root.sessionStorage && root.sessionStorage.getItem(KEY);
+      if (raw) {
+        var saved = JSON.parse(raw);
+        // Fusion prudente : on ne garde que des clés connues.
+        ["digital", "loyalty", "website"].forEach(function (k) {
+          if (saved.categories && typeof saved.categories[k] === "boolean") sel.categories[k] = saved.categories[k];
+        });
+        if (saved.digital) {
+          P.digital.options.forEach(function (o) {
+            var v = saved.digital.options && saved.digital.options[o.id];
+            if (v) sel.digital.options[o.id] = o.variants ? (C.findById(o.variants, v) ? v : o.defaultVariant) : true;
+          });
+          if (C.findById(P.digital.subscriptions, saved.digital.subscription)) sel.digital.subscription = saved.digital.subscription;
+          P.digital.nfc.items.forEach(function (it) {
+            sel.digital.nfc[it.id] = C.sanitizeQuantity(saved.digital.nfc && saved.digital.nfc[it.id], P.digital.nfc.maxQuantity);
+          });
+        }
+        if (saved.loyalty) {
+          if (C.findById(P.loyalty.programs, saved.loyalty.program)) sel.loyalty.program = saved.loyalty.program;
+          sel.loyalty.messaging = !!saved.loyalty.messaging;
+        }
+        if (saved.website) {
+          if (C.findById(P.website.formulas, saved.website.formula)) sel.website.formula = saved.website.formula;
+          if (C.findById(P.website.maintenances, saved.website.maintenance)) sel.website.maintenance = saved.website.maintenance;
+        }
+      }
+    } catch (e) { /* stockage indisponible : on continue sans */ }
+    return sel;
+  }
+
+  function save(sel) {
+    try { root.sessionStorage && root.sessionStorage.setItem(KEY, JSON.stringify(sel)); } catch (e) {}
+  }
+
+  var store = {
+    selection: load(),
+    ui: initialUi(),
+    subscribe: function (fn) { listeners.push(fn); },
+    // Modifie la sélection puis notifie (recalcul + rendu).
+    update: function (fn, opts) {
+      fn(store.selection, store.ui);
+      save(store.selection);
+      listeners.forEach(function (l) { l(opts || {}); });
+    },
+    // Sous-étapes de l'étape 2, selon les catégories choisies.
+    subSteps: function () {
+      var c = store.selection.categories, out = [];
+      if (c.digital) { out.push({ id: "page", label: "Votre page digitale", section: "digital" });
+                       out.push({ id: "nfc", label: "Vos supports NFC", section: "nfc" }); }
+      if (c.loyalty) out.push({ id: "loyalty", label: "Fidélisation", section: "loyalty" });
+      if (c.website) out.push({ id: "website", label: "Votre site Internet", section: "website" });
+      return out;
+    },
+    reset: function () {
+      store.selection = C.emptySelection(P);
+      save(store.selection);
+      store.ui = initialUi();
+      listeners.forEach(function (l) { l({}); });
+    }
+  };
+
+  root.AWS.store = store;
+})(window);
+
+</script>
+  <!-- 3. Composants visuels, récapitulatif, formulaire de devis -->
+  <script>
+/* ==========================================================================
+   COMPOSANTS VISUELS RÉUTILISABLES — ne calculent rien.
+   ========================================================================== */
+(function (root) {
+  "use strict";
+  var C = root.AWS.calc;
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  function chf(n) { return C.formatCHF(n); }
+  function amount(n) { return C.formatAmount(n); }
+
+  // Prix affiché avec son mode de facturation en toutes lettres.
+  function price(n, billing) {
+    if (billing === "monthly")
+      return '<span class="price price--monthly"><b>' + amount(n) + '</b>&nbsp;CHF<span class="price__per">/mois</span></span>';
+    return '<span class="price"><b>' + amount(n) + '</b>&nbsp;CHF</span>';
+  }
+
+  // Badges de facturation : le texte porte le sens, la couleur ne fait qu'aider.
+  var BADGES = {
+    once: ["Paiement unique", "badge--once"],
+    required: ["Abonnement obligatoire", "badge--required"],
+    optional: ["Abonnement facultatif", "badge--optional"]
+  };
+  function badge(kind) {
+    var b = BADGES[kind];
+    return '<span class="badge ' + b[1] + '">' + b[0] + "</span>";
+  }
+
+  function list(items, cls) {
+    return '<ul class="' + (cls || "ticks") + '">' + items.map(function (i) { return "<li>" + esc(i) + "</li>"; }).join("") + "</ul>";
+  }
+
+  function alertBox(kind, html, id) {
+    return '<div class="alert alert--' + kind + '"' + (id ? ' id="' + id + '"' : "") +
+      (kind === "error" ? ' role="alert"' : "") + ">" + html + "</div>";
+  }
+
+  // Carte sélectionnable : vraie case à cocher / bouton radio, accessible au clavier.
+  // o = { type, name, value, checked, id, title, body, aside, extra, disabled }
+  function choiceCard(o) {
+    return '<label class="choice' + (o.checked ? " is-on" : "") + (o.cls ? " " + o.cls : "") + '" for="' + o.id + '">' +
+      '<input class="choice__input" type="' + o.type + '" id="' + o.id + '" name="' + o.name + '" value="' + esc(o.value) + '"' +
+      (o.checked ? " checked" : "") + (o.action ? ' data-action="' + o.action + '"' : "") + ">" +
+      '<span class="choice__mark" aria-hidden="true"></span>' +
+      '<span class="choice__main"><span class="choice__title">' + o.title + "</span>" + (o.body || "") + "</span>" +
+      (o.aside ? '<span class="choice__aside">' + o.aside + "</span>" : "") +
+      "</label>" + (o.extra || "");
+  }
+
+  // Compteur − / + pour les quantités.
+  function counter(id, value, label, max) {
+    return '<div class="counter" role="group" aria-label="Quantité : ' + esc(label) + '">' +
+      '<button type="button" class="counter__btn" data-action="qty-dec" data-id="' + id + '" aria-label="Retirer un ' + esc(label) + '"' + (value <= 0 ? " disabled" : "") + '>−</button>' +
+      '<input class="counter__input" type="number" inputmode="numeric" min="0" max="' + max + '" step="1" id="qty-' + id + '" data-action="qty-set" data-id="' + id + '" value="' + value + '" aria-label="Quantité">' +
+      '<button type="button" class="counter__btn" data-action="qty-inc" data-id="' + id + '" aria-label="Ajouter un ' + esc(label) + '">+</button>' +
+      "</div>";
+  }
+
+  // Petites icônes au trait (aucun logo).
+  var ICONS = {
+    digital: '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="14" y="6" width="20" height="36" rx="4"/><path d="M21 37h6"/><path d="M38 17a9 9 0 0 1 0 14M42 13a15 15 0 0 1 0 22"/></svg>',
+    loyalty: '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="11" width="38" height="26" rx="4"/><circle cx="14" cy="21" r="3"/><circle cx="24" cy="21" r="3"/><circle cx="34" cy="21" r="3"/><circle cx="14" cy="30" r="3"/><circle cx="24" cy="30" r="3" class="ico-fill"/><path d="M31 30h6"/></svg>',
+    website: '<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="9" width="38" height="30" rx="4"/><path d="M5 17h38"/><circle cx="10" cy="13" r="1"/><circle cx="14" cy="13" r="1"/><path d="M11 24h14M11 29h10M30 24h8v9h-8z"/></svg>',
+    check: '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7"/></svg>',
+    info: '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 9v5M10 6.2v.1"/></svg>'
+  };
+
+  root.AWS.ui = {
+    esc: esc, chf: chf, amount: amount, price: price, badge: badge, list: list,
+    alertBox: alertBox, choiceCard: choiceCard, counter: counter, ICONS: ICONS
+  };
+})(window);
+
+</script>
+  <script>
+/* ==========================================================================
+   RÉCAPITULATIF — affichage du résultat du moteur de calcul.
+   Ne calcule rien : lit uniquement la sortie de AWS.calc.computeQuote.
+   ========================================================================== */
+(function (root) {
+  "use strict";
+  var P = root.AWS.PRICING, C = root.AWS.calc, U = root.AWS.ui;
+  var esc = U.esc;
+
+  function lineAmount(l) {
+    if (l.pending) return '<span class="tl__pending">à choisir</span>';
+    if (l.none) return '<span class="tl__none">0&nbsp;CHF/mois</span>';
+    return l.billing === "monthly"
+      ? '<span class="tl__amt tl__amt--m">' + U.amount(l.amount) + "&nbsp;CHF<small>/mois</small></span>"
+      : '<span class="tl__amt">' + U.amount(l.amount) + "&nbsp;CHF</span>";
+  }
+
+  function lines(sec, opts) {
+    return '<ul class="tl">' + sec.lines.map(function (l) {
+      var showDetail = l.detail && (l.group === "supports" || l.key === "extra" || l.pending || (!opts.compact && l.key === "pack"));
+      return '<li class="tl__row' + (l.pending ? " is-pending" : "") + '">' +
+        '<span class="tl__label">' + esc(l.label) + (showDetail ? "<small>" + esc(l.detail) + "</small>" : "") + "</span>" +
+        lineAmount(l) + "</li>";
+    }).join("") + "</ul>";
+  }
+
+  // Le « ticket » : toujours deux zones séparées, unique / mensuel.
+  function ticket(q, opts) {
+    opts = opts || {};
+    var t = q.totals;
+    var body = q.sections.length
+      ? q.sections.map(function (sec) {
+          return '<div class="ticket__sec">' +
+            (opts.example ? "" : '<p class="ticket__secname">' + esc(sec.name) +
+              (opts.editable ? ' <span class="ticket__acts">' +
+                '<button type="button" class="link link--small" data-action="edit-section" data-section="' + sec.id + '">Modifier</button>' +
+                '<button type="button" class="link link--small link--muted" data-action="remove-section" data-section="' + sec.id + '" aria-label="Retirer ' + esc(sec.name) + '">Retirer</button>' +
+              "</span>" : "") + "</p>") +
+            lines(sec, opts) + "</div>";
+        }).join("")
+      : '<p class="ticket__empty">Choisissez un service : votre estimation se construit ici, au fil de vos choix.</p>';
+
+    return '<div class="ticket' + (opts.compact ? " ticket--compact" : "") + '">' +
+      (opts.example ? "" : '<p class="ticket__title">Votre estimation</p>') +
+      body +
+      '<div class="ticket__perf" aria-hidden="true"></div>' +
+      '<div class="ticket__totals" aria-live="polite">' +
+        '<div class="ticket__total"><span>À payer une fois</span><strong>' + U.amount(t.initial) + "&nbsp;CHF</strong></div>" +
+        '<div class="ticket__total ticket__total--m"><span>Chaque mois</span><strong>' + U.amount(t.monthly) + "&nbsp;CHF<small>/mois</small></strong></div>" +
+      "</div>" +
+      (opts.example ? "" : '<p class="ticket__note">' + esc(P.notices.initialTotal) + "</p>") +
+    "</div>";
+  }
+
+  // Récapitulatif financier (étape 3), dans l'ordre du cahier des charges.
+  function financial(q) {
+    var t = q.totals, c = {};
+    q.sections.forEach(function (s) { c[s.id] = true; });
+    var rows = [];
+    if (c.digital) rows.push(["Création de la page digitale", t.pageCreation]);
+    if (c.digital && t.supports > 0) rows.push(["Supports physiques NFC", t.supports]);
+    if (c.loyalty) rows.push(["Création fidélisation", t.loyaltyCreation]);
+    if (c.website) rows.push(["Création du site", t.siteCreation]);
+    var mrows = [];
+    if (c.digital) mrows.push(["Page digitale", t.monthlyBy.digital]);
+    if (c.loyalty) mrows.push(["Fidélisation", t.monthlyBy.loyalty]);
+    if (c.website) mrows.push(["Maintenance du site", t.monthlyBy.website]);
+
+    return '<div class="fin">' +
+      '<div class="fin__col"><h3 class="fin__h">Payé une seule fois</h3><dl>' +
+        rows.map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + U.chf(r[1]) + "</dd></div>"; }).join("") +
+        '<div class="fin__total"><dt>Total initial</dt><dd>' + U.chf(t.initial) + "</dd></div></dl>" +
+        '<p class="fine">' + esc(P.notices.initialTotal) + "</p></div>" +
+      '<div class="fin__col fin__col--m"><h3 class="fin__h">Payé chaque mois</h3><dl>' +
+        mrows.map(function (r) { return "<div><dt>" + r[0] + "</dt><dd>" + U.chf(r[1]) + "/mois</dd></div>"; }).join("") +
+        '<div class="fin__total"><dt>Abonnements mensuels</dt><dd>' + U.chf(t.monthly) + "/mois</dd></div></dl>" +
+        '<p class="fine">' + esc(P.notices.monthly) + "</p></div>" +
+    "</div>";
+  }
+
+  // Version texte (e-mail et copie). Espaces ordinaires pour la compatibilité.
+  function text(q, quote) {
+    var t = q.totals, L = [];
+    function chf(n) { return C.formatCHF(n, " "); }
+    L.push("DEMANDE DE DEVIS - " + P.studio.name);
+    L.push("");
+    if (quote) {
+      L.push("CONTACT");
+      L.push("Nom et prénom : " + quote.name);
+      L.push("Établissement : " + quote.company);
+      L.push("E-mail : " + quote.email);
+      L.push("Téléphone : " + (quote.phone || "non renseigné"));
+      L.push("Accepte les communications commerciales : " + (quote.marketing ? "oui" : "non"));
+      L.push("");
+    }
+    L.push("MON PROJET");
+    q.sections.forEach(function (sec) {
+      L.push("");
+      L.push(sec.name);
+      sec.lines.forEach(function (l) {
+        if (l.pending) { L.push("- " + l.label + " : " + l.detail); return; }
+        var label = l.label;
+        if (l.key === "pack" && l.detail) label += " : " + l.detail;
+        if (l.group === "supports") label = l.qty + " x " + l.label + " (" + chf(l.unitPrice) + " la pièce)";
+        if (l.key === "extra") label += " (" + l.qty + " x " + chf(l.unitPrice) + ")";
+        if (l.none) { L.push("- Sans maintenance"); return; }
+        L.push("- " + label + " : " + chf(l.amount) + (l.billing === "monthly" ? "/mois" : ""));
+      });
+    });
+    L.push("");
+    L.push("RÉCAPITULATIF FINANCIER");
+    var ids = q.sections.map(function (s) { return s.id; });
+    if (ids.indexOf("digital") > -1) L.push("- Création de la page digitale : " + chf(t.pageCreation));
+    if (ids.indexOf("digital") > -1 && t.supports > 0) L.push("- Supports physiques : " + chf(t.supports));
+    if (ids.indexOf("loyalty") > -1) L.push("- Création fidélisation : " + chf(t.loyaltyCreation));
+    if (ids.indexOf("website") > -1) L.push("- Création du site : " + chf(t.siteCreation));
+    L.push("Total initial (paiement unique) : " + chf(t.initial));
+    L.push("Abonnements mensuels : " + chf(t.monthly) + "/mois");
+    if (quote && quote.message) { L.push(""); L.push("MESSAGE"); L.push(quote.message); }
+    L.push("");
+    if (ids.indexOf("loyalty") > -1 && q.sections.some(function (x) { return x.lines.some(function (l) { return l.key === "messagerie"; }); }))
+      L.push(P.notices.contextual.messaging);
+    if (ids.indexOf("website") > -1) L.push(P.notices.contextual.website);
+    L.push(P.notices.initialTotal);
+    L.push(P.notices.indicative);
+    L.push(P.notices.vat);
+    return L.join("\n");
+  }
+
+  root.AWS.summary = { ticket: ticket, financial: financial, text: text };
+})(window);
+
+</script>
+  <script>
+/* ==========================================================================
+   ACCUEIL + DÉCOUVRIR NOS SERVICES (lecture seule)
+   Tous les prix proviennent de AWS.PRICING.
+   ========================================================================== */
+(function (root) {
+  "use strict";
+  var P = root.AWS.PRICING, C = root.AWS.calc, U = root.AWS.ui, S = root.AWS.summary;
+  var esc = U.esc;
+
+  function minOf(list, key) { return Math.min.apply(null, list.map(function (x) { return x[key]; })); }
+
+  // Prix d'appel calculés depuis les données.
+  function fromPrices() {
+    return {
+      digital: { creation: P.digital.packs[0].price, monthly: minOf(P.digital.subscriptions, "price") },
+      loyalty: { creation: Math.min(minOf(P.loyalty.programs, "creation"), P.loyalty.messaging.creation),
+                 monthly: Math.min(minOf(P.loyalty.programs, "monthly"), P.loyalty.messaging.monthly) },
+      website: { creation: minOf(P.website.formulas, "price"),
+                 monthly: minOf(P.website.maintenances.filter(function (m) { return m.id !== "none"; }), "price") }
+    };
+  }
+
+  function hero() {
+    // Exemple calculé par le moteur (jamais saisi à la main).
+    var ex = C.emptySelection(P);
+    ex.categories.digital = true;
+    ex.digital.options = { avis: true, reseaux: true, menu: "simple" };
+    ex.digital.subscription = "plus";
+    ex.digital.nfc.carteBlanche = 5;
+    var q = C.computeQuote(ex, P);
+
+    return '<section class="hero">' +
+      '<div class="hero__text">' +
+        '<h1 class="hero__title">' + esc(P.studio.tagline) + "</h1>" +
+        '<p class="hero__lead">Découvrez nos services, composez votre propre offre et obtenez une estimation personnalisée en quelques minutes.</p>' +
+        '<div class="hero__actions">' +
+          '<button type="button" class="btn btn--primary btn--lg" data-action="start">Créer mon offre</button>' +
+          '<a class="btn btn--ghost btn--lg" href="#services" data-action="scroll-services">Découvrir nos services</a>' +
+        "</div>" +
+        '<p class="hero__note">Chaque prix est affiché clairement : ce que vous payez une fois, et ce que vous payez chaque mois.</p>' +
+      "</div>" +
+      '<div class="hero__visual" aria-label="Exemple d\'estimation">' +
+        '<p class="hero__caption">Exemple d\'estimation</p>' +
+        S.ticket(q, { compact: true, example: true }) +
+      "</div>" +
+    "</section>";
+  }
+
+  function categoryCards() {
+    var fp = fromPrices();
+    var cats = [
+      { c: P.digital, f: fp.digital, monthlyLabel: "Abonnement obligatoire" },
+      { c: P.loyalty, f: fp.loyalty, monthlyLabel: "Abonnement obligatoire" },
+      { c: P.website, f: fp.website, monthlyLabel: "Maintenance facultative", optional: true }
+    ];
+    return '<section class="cats" aria-labelledby="cats-title">' +
+      '<h2 id="cats-title" class="section-title">Trois services, une seule offre</h2>' +
+      '<p class="section-lead">Choisissez un service ou combinez-les. Votre estimation se calcule à chaque clic.</p>' +
+      '<div class="cats__grid">' + cats.map(function (x) {
+        return '<article class="cat cat--' + x.c.id + '" aria-labelledby="cat-' + x.c.id + '-h">' +
+          '<div class="cat__head"><span class="cat__icon">' + U.ICONS[x.c.id] + "</span>" +
+          '<h3 class="cat__name" id="cat-' + x.c.id + '-h">' + esc(x.c.name) + "</h3></div>" +
+          '<p class="cat__intro">' + esc(x.c.intro) + "</p>" +
+          U.list(x.c.highlights, "ticks cat__points") +
+          // Les deux montants sont toujours présentés séparément, comme dans l'estimation.
+          '<dl class="cat__prices">' +
+            '<div class="cat__price"><dt>Une fois</dt><dd><span class="cat__from">dès</span> ' + U.price(x.f.creation, "once") + "</dd>" +
+              '<dd class="cat__note">Création</dd></div>' +
+            '<div class="cat__price cat__price--m"><dt>Chaque mois</dt><dd>' +
+              (x.optional ? '<span class="price"><b>0</b>&nbsp;CHF</span> <span class="cat__from">ou dès</span> ' + U.amount(x.f.monthly) + "&nbsp;CHF"
+                          : '<span class="cat__from">dès</span> ' + U.price(x.f.monthly, "monthly")) + "</dd>" +
+              '<dd class="cat__note">' + x.monthlyLabel + "</dd></div>" +
+          "</dl>" +
+          '<div class="cat__actions">' +
+            '<button type="button" class="btn btn--primary" data-action="start-with" data-cat="' + x.c.id + '">Ajouter à mon offre</button>' +
+            '<a class="link" href="#svc-' + x.c.id + '" data-action="scroll-to" data-target="svc-' + x.c.id + '">Voir le détail</a>' +
+          "</div>" +
+        "</article>";
+      }).join("") + "</div></section>";
+  }
+
+  function howItWorks() {
+    var steps = [
+      ["Choisissez vos services", "Page digitale, fidélisation, site Internet : un seul ou plusieurs."],
+      ["Personnalisez votre offre", "Options, abonnements, supports NFC. Le prix s'affiche en direct."],
+      ["Découvrez votre estimation", "Un récapitulatif clair, puis une demande de devis en un clic."]
+    ];
+    return '<section class="how" aria-labelledby="how-title">' +
+      '<h2 id="how-title" class="section-title">Comment ça marche</h2>' +
+      '<ol class="how__list">' + steps.map(function (s, i) {
+        return '<li class="how__item"><span class="how__num" aria-hidden="true">' + (i + 1) + "</span>" +
+          '<div><h3 class="how__name">' + s[0] + "</h3><p>" + s[1] + "</p></div></li>";
+      }).join("") + "</ol></section>";
+  }
+
+  /* ---------- Découvrir nos services ---------- */
+  function svcHead(c) {
+    return '<header class="svc__head"><div class="svc__icon">' + U.ICONS[c.id] + "</div><div>" +
+      '<p class="svc__cat">' + esc(c.name) + "</p>" +
+      '<h3 class="svc__title">' + esc(c.title) + "</h3></div></header>" +
+      '<div class="svc__desc">' + c.description.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("") + "</div>";
+  }
+  function svcCta(id) {
+    return '<div class="svc__cta"><button type="button" class="btn btn--primary" data-action="start-with" data-cat="' + id + '">Ajouter à mon offre</button></div>';
+  }
+  function plans(list, billing, badgeKind) {
+    return '<div class="plans">' + list.map(function (s) {
+      return '<div class="plan"><p class="plan__name">' + esc(s.name) + "</p>" +
+        (s.id === "none" ? '<p class="plan__price">0&nbsp;CHF<span class="price__per">/mois</span></p>' : '<p class="plan__price">' + U.price(s.price, billing) + "</p>") +
+        (s.inherits ? '<p class="plan__inherits">' + esc(s.inherits) + "</p>" : "") +
+        U.list(s.includes) + "</div>";
+    }).join("") + "</div>";
+  }
+
+  // Bloc repliable : le titre et un aperçu du prix restent visibles, le détail s'ouvre au toucher.
+  function fold(title, badgeKind, teaser, content, open) {
+    return '<details class="svc__block fold"' + (open ? " open" : "") + ">" +
+      '<summary class="fold__sum"><span class="fold__title">' + title + (badgeKind ? " " + U.badge(badgeKind) : "") + "</span>" +
+      (teaser ? '<span class="fold__teaser">' + teaser + "</span>" : "") +
+      '<span class="fold__chev" aria-hidden="true"></span></summary>' +
+      '<div class="fold__body">' + content + "</div></details>";
+  }
+
+  function svcDigital() {
+    var d = P.digital, last = d.packs[d.packs.length - 1];
+    var subMin = Math.min.apply(null, d.subscriptions.map(function (s) { return s.price; }));
+    var nfcMin = Math.min.apply(null, d.nfc.items.map(function (i) { return i.price; }));
+    return '<article class="svc" id="svc-digital">' + svcHead(d) +
+      fold("Chaque page comprend", null, "", U.list(d.basePageIncludes, "ticks ticks--cols"), true) +
+      fold("Création : vous choisissez vos options", "once", "de " + U.chf(d.packs[0].price) + " à " + U.chf(last.price),
+        '<div class="packs">' + d.packs.map(function (p) {
+          return '<div class="packs__cell"><span class="packs__n">' + p.units + " option" + (p.units > 1 ? "s" : "") + "</span>" + U.price(p.price, "once") + "</div>";
+        }).join("") + "</div>" +
+        '<p class="fine">Au-delà de ' + last.units + " options : " + U.chf(d.extraUnitPrice) + " par option supplémentaire, à la création, sans supplément mensuel. " + esc(d.complexNote) + "</p>") +
+      fold("Les " + d.options.length + " options disponibles", null, "",
+        '<ul class="opts">' + d.options.map(function (o) {
+          return "<li><b>" + esc(o.name) + "</b><span>" + esc(o.description) + " " +
+            (o.variants ? esc(o.variants[1].description) : esc(o.example)) + "</span></li>";
+        }).join("") + "</ul>") +
+      fold("Abonnement", "required", "dès " + U.chf(subMin) + "/mois",
+        '<p class="fine fine--top">Une page digitale nécessite un abonnement. Vous choisissez une seule formule.</p>' +
+        plans(d.subscriptions, "monthly") + '<p class="fine">' + esc(d.smallChangesNote) + "</p>") +
+      fold("Supports NFC", "once", "dès " + U.chf(nfcMin) + " la pièce",
+        '<p class="fine fine--top">' + esc(d.nfc.intro) + " " + esc(d.nfc.deliveryNote) + " Disponibles avec une page digitale.</p>" +
+        '<ul class="nfc-list">' + d.nfc.items.map(function (it) {
+          return "<li><span><b>" + esc(it.name) + "</b>" + esc(it.description) + "</span>" + U.price(it.price, "once") + '<span class="fine">la pièce</span></li>';
+        }).join("") + "</ul>" +
+        '<p class="fine">Inclus : ' + esc(d.nfc.includes.join(", ").toLowerCase()) + ".</p>") +
+      svcCta("digital") + "</article>";
+  }
+
+  function svcLoyalty() {
+    var l = P.loyalty, m = l.messaging;
+    var combos = l.programs.map(function (p) { return [p.shortName, p.creation, p.monthly]; })
+      .concat([[m.shortName, m.creation, m.monthly]])
+      .concat(l.programs.map(function (p) { return [p.shortName + " + messagerie", p.creation + m.creation, p.monthly + m.monthly]; }));
+    function item(x, extra) {
+      return '<div class="plan"><p class="plan__name">' + esc(x.name) + "</p>" +
+        '<p class="plan__price">' + U.price(x.creation, "once") + ' <span class="fine">à la création</span></p>' +
+        '<p class="plan__price plan__price--sub">' + U.price(x.monthly, "monthly") + ' <span class="fine">abonnement obligatoire</span></p>' +
+        U.list(x.how) + '<p class="example">Exemple : ' + esc(x.example) + "</p>" + (extra || "") + "</div>";
+    }
+    return '<article class="svc" id="svc-loyalty">' + svcHead(l) +
+      fold("Un programme de fidélité, au choix", null, "tampons ou points",
+        '<p class="fine fine--top">Vous choisissez l\'un des deux.</p>' +
+        '<div class="plans plans--2">' + l.programs.map(function (p) { return item(p); }).join("") + "</div>", true) +
+      fold("Messagerie automatisée", null, "facultative",
+        '<div class="plans plans--1">' + item(m, '<p class="fine">Canal prévu : ' + esc(m.channel.toLowerCase()) + ". " + esc(m.standaloneNote) + "</p>") + "</div>") +
+      fold("Les combinaisons possibles", null, combos.length + " formules",
+        '<table class="combo"><thead><tr><th scope="col">Solution</th><th scope="col">Création</th><th scope="col">Abonnement</th></tr></thead><tbody>' +
+        combos.map(function (c) { return '<tr><th scope="row">' + esc(c[0]) + "</th><td>" + U.chf(c[1]) + "</td><td>" + U.chf(c[2]) + "/mois</td></tr>"; }).join("") +
+        "</tbody></table>") +
+      fold("Bon à savoir", null, "", U.list(l.notices, "plain")) +
+      svcCta("loyalty") + "</article>";
+  }
+
+  function svcWebsite() {
+    var w = P.website;
+    return '<article class="svc" id="svc-website">' + svcHead(w) +
+      fold("Création", "once", "de " + U.chf(w.formulas[0].price) + " à " + U.chf(w.formulas[w.formulas.length - 1].price),
+        plans(w.formulas, "once") + '<p class="fine">' + esc(w.complexNote) + "</p>", true) +
+      fold("Maintenance", "optional", "0 CHF ou dès " + U.chf(w.maintenances[1].price) + "/mois",
+        '<p class="fine fine--top">Contrairement aux autres services, la maintenance n\'est pas obligatoire. Vous pouvez payer uniquement la création et gérer votre site vous-même.</p>' +
+        plans(w.maintenances, "monthly")) +
+      fold("Hébergement et nom de domaine", null, "", U.list(w.notices, "plain")) +
+      svcCta("website") + "</article>";
+  }
+
+  // Raccourcis vers chaque service, toujours visibles pendant la lecture.
+  function svcNav() {
+    return '<nav class="svcnav" aria-label="Aller à un service"><div class="svcnav__in">' +
+      [P.digital, P.loyalty, P.website].map(function (c) {
+        return '<a class="svcnav__link" href="#svc-' + c.id + '" data-action="scroll-to" data-target="svc-' + c.id + '">' +
+          '<span class="svcnav__icon">' + U.ICONS[c.id] + "</span>" + esc(c.short) + "</a>";
+      }).join("") + "</div></nav>";
+  }
+
+  function services() {
+    return '<section class="services" id="services" aria-labelledby="services-title">' +
+      '<h2 id="services-title" class="section-title">Nos services en détail</h2>' +
+      '<p class="section-lead">' + esc(P.notices.vat) + "</p>" +
+      svcNav() + svcDigital() + svcLoyalty() + svcWebsite() +
+      '<div class="services__end"><p>Prêt à composer votre offre ?</p><button type="button" class="btn btn--primary btn--lg" data-action="start">Créer mon offre</button></div>' +
+      "</section>";
+  }
+
+  root.AWS.home = {
+    render: function () { return hero() + categoryCards() + howItWorks() + services(); }
+  };
+})(window);
+
+</script>
+  <script>
+/* ==========================================================================
+   DEMANDE DE DEVIS
+   Aucune intégration d'envoi automatique n'est configurée : le formulaire
+   prépare un e-mail (mailto) et propose de copier le récapitulatif.
+   Rien n'est jamais présenté comme « envoyé ».
+   ========================================================================== */
+(function (root) {
+  "use strict";
+  var P = root.AWS.PRICING, U = root.AWS.ui, S = root.AWS.summary;
+  var esc = U.esc;
+  var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+  function field(id, label, value, opts) {
+    opts = opts || {};
+    var err = opts.error ? '<p class="field__err" id="' + id + '-err">' + esc(opts.error) + "</p>" : "";
+    var common = ' id="' + id + '" name="' + id + '" data-action="quote-field" data-field="' + id.replace("q-", "") + '"' +
+      (opts.required ? " required" : "") + (opts.error ? ' aria-invalid="true" aria-describedby="' + id + '-err"' : "") +
+      (opts.autocomplete ? ' autocomplete="' + opts.autocomplete + '"' : "");
+    var input = opts.textarea
+      ? "<textarea" + common + ' rows="4">' + esc(value) + "</textarea>"
+      : '<input type="' + (opts.type || "text") + '"' + common + ' value="' + esc(value) + '">';
+    return '<div class="field' + (opts.wide ? " field--wide" : "") + (opts.error ? " has-error" : "") + '">' +
+      '<label for="' + id + '">' + esc(label) + (opts.required ? "" : ' <span class="field__opt">(facultatif)</span>') + "</label>" +
+      input + err + "</div>";
+  }
+
+  function copyArea(ui) {
+    if (ui.copyStatus === "ok") return '<p class="copy-ok" role="status">' + U.ICONS.check + "Récapitulatif copié. Vous pouvez le coller dans un e-mail ou un message.</p>";
+    if (ui.copyStatus === "manual") return '<div class="copy-manual" role="status"><p>La copie automatique n\'est pas disponible ici. Sélectionnez le texte ci-dessous, puis copiez-le.</p>' +
+      '<textarea id="copy-text" readonly rows="10">' + esc(ui.copyText || "") + "</textarea></div>";
+    return "";
+  }
+
+  function render(ui, q) {
+    var e = ui.quoteErrors || {}, d = ui.quote, mail = P.studio.quoteEmail;
+    var html = '<section class="quote" id="quote" aria-labelledby="h-quote">' +
+      '<h3 id="h-quote" class="quote__title">Recevoir votre devis personnalisé</h3>' +
+      '<p class="quote__lead">Envoyez-nous votre sélection. Nous étudions votre projet et vous confirmons un devis définitif.</p>';
+
+    if (!ui.quoteOpen) {
+      html += '<div class="quote__actions">' +
+        '<button type="button" class="btn btn--primary btn--lg" data-action="open-quote">Recevoir mon devis personnalisé</button>' +
+        '<button type="button" class="btn btn--ghost" data-action="copy">Copier mon récapitulatif</button></div>' + copyArea(ui);
+      return html + "</section>";
+    }
+
+    html += '<form class="qform" id="qform" novalidate data-action="quote-submit">' +
+      '<div class="qform__grid">' +
+        field("q-name", "Nom et prénom", d.name, { required: true, error: e.name, autocomplete: "name" }) +
+        field("q-company", "Nom de l'établissement", d.company, { required: true, error: e.company, autocomplete: "organization" }) +
+        field("q-email", "Adresse e-mail", d.email, { required: true, type: "email", error: e.email, autocomplete: "email" }) +
+        field("q-phone", "Numéro de téléphone", d.phone, { type: "tel", autocomplete: "tel" }) +
+        field("q-message", "Message complémentaire", d.message, { textarea: true, wide: true }) +
+      "</div>" +
+      '<p class="qform__included">' + U.ICONS.check + "Votre sélection, les quantités et les estimations sont jointes automatiquement à votre demande.</p>" +
+      '<div class="privacy"><p class="privacy__h">Vos données personnelles</p><p>' + esc(P.notices.privacy.replace("{email}", mail)) + "</p></div>" +
+      '<label class="consent" for="q-marketing"><input type="checkbox" id="q-marketing" data-action="quote-marketing"' + (d.marketing ? " checked" : "") + ">" +
+        '<span>' + esc(P.notices.marketingConsent) + ' <span class="field__opt">(facultatif, sans effet sur votre demande de devis)</span></span></label>' +
+      '<div class="quote__actions">' +
+        '<button type="submit" class="btn btn--primary btn--lg">Préparer mon e-mail</button>' +
+        '<button type="button" class="btn btn--ghost" data-action="copy">Copier mon récapitulatif</button></div>' +
+      "</form>";
+
+    if (ui.quoteReady) {
+      var text = S.text(q, d);
+      var href = "mailto:" + mail + "?subject=" + encodeURIComponent("Demande de devis - " + d.company) + "&body=" + encodeURIComponent(text);
+      html += '<div class="ready" id="quote-ready" tabindex="-1">' +
+        '<p class="ready__h">Votre demande est prête à être envoyée</p>' +
+        '<p>Elle n\'est pas encore envoyée. Ouvrez votre messagerie : l\'e-mail est déjà rempli avec votre sélection, il ne reste qu\'à cliquer sur « Envoyer ».</p>' +
+        '<a class="btn btn--primary btn--lg" href="' + esc(href) + '">Ouvrir ma messagerie</a>' +
+        '<p class="ready__alt">Rien ne s\'ouvre ? Copiez votre demande et envoyez-la à <b class="mail">' + esc(mail) + "</b>.</p>" +
+        '<button type="button" class="btn btn--ghost" data-action="copy">Copier ma demande</button></div>';
+    }
+    html += copyArea(ui);
+    return html + '<p class="fine">' + esc(P.notices.indicative) + "</p></section>";
+  }
+
+  function validateForm(d) {
+    var e = {};
+    if (!d.name.trim()) e.name = "Indiquez votre nom et votre prénom.";
+    if (!d.company.trim()) e.company = "Indiquez le nom de votre établissement.";
+    if (!d.email.trim()) e.email = "Indiquez votre adresse e-mail.";
+    else if (!EMAIL_RE.test(d.email.trim())) e.email = "Cette adresse e-mail semble incomplète. Exemple : nom@domaine.ch";
+    return e;
+  }
+
+  // Copie : API presse-papiers si autorisée, sinon zone de texte à copier.
+  function copy(text, done) {
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done("ok"); }, function () { done("manual"); });
+        return;
+      }
+    } catch (err) {}
+    done("manual");
+  }
+
+  root.AWS.quote = { render: render, validateForm: validateForm, copy: copy };
+})(window);
+
+</script>
+  <script>
+/* ==========================================================================
+   CONFIGURATEUR — étapes 1, 2 (sous-étapes) et 3.
+   Affichage uniquement : lit la sélection, le résultat du calcul et la
+   validation ; les prix viennent tous de AWS.PRICING.
+   ========================================================================== */
+(function (root) {
+  "use strict";
+  var P = root.AWS.PRICING, C = root.AWS.calc, U = root.AWS.ui, S = root.AWS.summary, store = root.AWS.store;
+  var esc = U.esc;
+
+  /* ---------- Barre de progression ---------- */
+  function progress(ui, v) {
+    var labels = ["Choisissez vos services", "Personnalisez votre offre", "Découvrez votre estimation"];
+    var hasCat = v.categories.length > 0;
+    return '<nav class="prog" aria-label="Progression">' + '<ol class="prog__list">' + labels.map(function (l, i) {
+      var n = i + 1, state = n < ui.step ? "done" : n === ui.step ? "current" : "todo";
+      var reachable = n === 1 || (n === 2 && hasCat) || (n === 3 && v.ok) || n < ui.step;
+      var inner = '<span class="prog__num" aria-hidden="true">' + (state === "done" ? U.ICONS.check : n) + "</span>" +
+        '<span class="prog__label"><span class="prog__step">Étape ' + n + "</span>" + l + "</span>";
+      return '<li class="prog__item is-' + state + '"' + (state === "current" ? ' aria-current="step"' : "") + ">" +
+        (reachable && state !== "current"
+          ? '<button type="button" class="prog__btn" data-action="goto-step" data-step="' + n + '">' + inner + "</button>"
+          : '<span class="prog__btn">' + inner + "</span>") + "</li>";
+    }).join("") + "</ol>" +
+    '<div class="prog__bar" aria-hidden="true"><span style="width:' + ((ui.step - 1) / 2 * 100) + '%"></span></div></nav>';
+  }
+
+  function errors(ui, section, list) {
+    if (!ui.showErrors[section] || !list.length) return "";
+    return U.alertBox("error", "<b>Il manque une information pour continuer</b>" + U.list(list, "plain"), "err-" + section);
+  }
+
+  function navButtons(back, next, nextLabel) {
+    return '<div class="stepnav">' +
+      (back ? '<button type="button" class="btn btn--ghost" data-action="' + back[0] + '">' + back[1] + "</button>" : "<span></span>") +
+      (next ? '<button type="button" class="btn btn--primary btn--lg" data-action="' + next + '">' + nextLabel + "</button>" : "") +
+      "</div>";
+  }
+
+  /* ---------- Étape 1 ---------- */
+  function step1(sel, ui, v) {
+    var cats = [P.digital, P.loyalty, P.website];
+    var from = {
+      digital: "Création dès " + U.chf(P.digital.packs[0].price) + ", abonnement obligatoire",
+      loyalty: "Création dès " + U.chf(Math.min(P.loyalty.programs[0].creation, P.loyalty.messaging.creation)) + ", abonnement obligatoire",
+      website: "Création dès " + U.chf(P.website.formulas[0].price) + ", maintenance facultative"
+    };
+    return removedNotice(ui) + '<header class="stephead"><h2 class="stephead__title">Quels services vous intéressent ?</h2>' +
+      '<p class="stephead__lead">Choisissez-en un ou plusieurs. Vous pourrez revenir en arrière à tout moment sans perdre vos choix.</p></header>' +
+      '<div class="catpick">' + cats.map(function (c) {
+        return U.choiceCard({
+          type: "checkbox", name: "cat", id: "cat-" + c.id, value: c.id, checked: sel.categories[c.id], action: "toggle-cat",
+          cls: "choice--cat",
+          title: '<span class="choice__icon">' + U.ICONS[c.id] + "</span>" + esc(c.name),
+          body: '<span class="choice__text">' + esc(c.intro) + '</span><span class="choice__meta">' + esc(from[c.id]) + "</span>"
+        });
+      }).join("") + "</div>" +
+      errors(ui, "categories", v.issues.categories) +
+      navButtons(["go-home", "Retour à l'accueil"], "next", "Continuer");
+  }
+
+  /* ---------- Étape 2 : page digitale ---------- */
+  function packMeter(units) {
+    var d = P.digital, max = d.packs.length, cells = Math.max(max, units);
+    var pk = C.packFor(units, P);
+    var html = '<div class="meter" aria-hidden="true">';
+    for (var i = 1; i <= cells; i++) {
+      var isPack = i <= max;
+      html += '<div class="meter__cell' + (i <= units ? " is-on" : "") + (isPack ? "" : " meter__cell--extra") + '">' +
+        '<span class="meter__bar"></span>' +
+        '<span class="meter__n">' + (isPack ? d.packs[i - 1].name : "+1") + "</span>" +
+        '<span class="meter__p">' + (isPack ? U.amount(d.packs[i - 1].price) : "+" + d.extraUnitPrice) + "</span></div>";
+    }
+    html += "</div>";
+    var status = !pk
+      ? "Aucune option choisie pour l'instant. Une page digitale comprend au moins une option."
+      : "<b>" + units + " option" + (units > 1 ? "s" : "") + "</b> choisie" + (units > 1 ? "s" : "") + " : <b>" + pk.pack.name + "</b>" +
+        (pk.extraUnits ? " + " + pk.extraUnits + " option" + (pk.extraUnits > 1 ? "s" : "") + " supplémentaire" + (pk.extraUnits > 1 ? "s" : "") : "") +
+        ", soit <b>" + U.chf(pk.creation) + "</b> à la création.";
+    return '<div class="meterbox">' + html + '<p class="meter__status" aria-live="polite">' + status + "</p>" +
+      '<p class="fine">Au-delà de ' + max + " options, chaque option supplémentaire coûte " + U.chf(d.extraUnitPrice) + " à la création, sans supplément mensuel.</p></div>";
+  }
+
+  function subPage(sel, ui, v) {
+    var d = P.digital, units = C.digitalChosenOptions(sel.digital, P).reduce(function (a, o) { return a + o.units; }, 0);
+    var opts = d.options.map(function (o) {
+      var val = sel.digital.options[o.id], on = !!val, extra = "";
+      if (o.variants && on) {
+        var cur = val === true ? o.defaultVariant : val;
+        extra = '<div class="variants" role="radiogroup" aria-labelledby="menu-variants-h"><p class="variants__h" id="menu-variants-h">Quel type de menu ?</p>' + o.variants.map(function (vr) {
+          return U.choiceCard({ type: "radio", name: "menu-variant", id: "menu-" + vr.id, value: vr.id, checked: cur === vr.id,
+            action: "menu-variant", cls: "choice--mini",
+            title: esc(vr.name), body: '<span class="choice__text">' + esc(vr.description) + "</span>",
+            aside: '<span class="units">' + vr.units + " option" + (vr.units > 1 ? "s" : "") + "</span>" });
+        }).join("") + "</div>";
+      }
+      var units1 = o.variants ? (on ? C.findById(o.variants, val === true ? o.defaultVariant : val).units : 1) : o.units;
+      return '<div class="optwrap' + (o.variants && on ? " optwrap--open" : "") + '">' + U.choiceCard({
+        type: "checkbox", name: "opt", id: "opt-" + o.id, value: o.id, checked: on, action: "toggle-opt",
+        title: esc(o.name),
+        body: '<span class="choice__text">' + esc(o.description) + '</span><span class="choice__ex">' + esc(o.example) + "</span>",
+        aside: '<span class="units">' + units1 + " option" + (units1 > 1 ? "s" : "") + "</span>",
+        extra: extra
+      }) + (o.note && on ? '<p class="optnote">' + U.ICONS.info + esc(o.note) + "</p>" : "") + "</div>";
+    }).join("");
+
+    var subs = d.subscriptions.map(function (s) {
+      return U.choiceCard({ type: "radio", name: "sub", id: "sub-" + s.id, value: s.id, checked: sel.digital.subscription === s.id,
+        action: "set-sub", cls: "choice--plan",
+        title: esc(s.name) + U.price(s.price, "monthly"),
+        body: (s.inherits ? '<span class="choice__inherits">' + esc(s.inherits) + "</span>" : "") + U.list(s.includes) });
+    }).join("");
+
+    return '<header class="stephead"><h2 class="stephead__title">' + esc(d.title) + "</h2>" +
+      '<p class="stephead__lead">' + esc(d.intro) + "</p></header>" +
+      '<div class="included"><p class="included__h">Inclus dans chaque page</p>' + U.list(d.basePageIncludes, "chips") + "</div>" +
+      '<section class="block" aria-labelledby="h-opts"><div class="block__head"><h3 id="h-opts">Choisissez vos options</h3>' + U.badge("once") + "</div>" +
+      '<p class="block__lead">Le prix de création dépend du nombre d\'options. Choisissez librement celles qui vous sont utiles.</p>' +
+      packMeter(units) + '<div class="optgrid">' + opts + "</div>" +
+      '<p class="fine">' + esc(d.complexNote) + "</p></section>" +
+      '<section class="block" aria-labelledby="h-sub"><div class="block__head"><h3 id="h-sub">Choisissez votre abonnement</h3>' + U.badge("required") + "</div>" +
+      '<p class="block__lead">Votre page a besoin d\'un abonnement pour rester en ligne, sécurisée et à jour. Choisissez une formule.</p>' +
+      '<div class="plangrid" role="radiogroup" aria-labelledby="h-sub">' + subs + "</div>" +
+      '<p class="fine">' + esc(d.smallChangesNote) + "</p></section>" +
+      errors(ui, "digital", v.issues.digital);
+  }
+
+  /* ---------- Étape 2 : supports NFC ---------- */
+  function subNfc(sel) {
+    var n = P.digital.nfc;
+    var rows = n.items.map(function (it) {
+      var q = C.sanitizeQuantity(sel.digital.nfc[it.id], n.maxQuantity);
+      return '<div class="nfc' + (q > 0 ? " is-on" : "") + '">' +
+        '<div class="nfc__info"><p class="nfc__name">' + esc(it.name) + "</p>" +
+        '<p class="nfc__desc">' + esc(it.description) + "</p>" +
+        '<p class="nfc__unit">' + U.price(it.price, "once") + " la pièce</p></div>" +
+        '<div class="nfc__ctrl">' + U.counter(it.id, q, it.name, n.maxQuantity) +
+        '<p class="nfc__sub" id="nfcsub-' + it.id + '">' + (q > 0 ? "Sous-total : <b>" + U.chf(q * it.price) + "</b>" : "&nbsp;") + "</p></div></div>";
+    }).join("");
+    return '<header class="stephead"><h2 class="stephead__title">Vos supports NFC</h2>' +
+      '<p class="stephead__lead">' + esc(n.intro) + " Cette étape est facultative.</p></header>" +
+      '<section class="block"><div class="block__head"><h3>Choisissez vos supports et leur quantité</h3>' + U.badge("once") + "</div>" +
+      '<p class="block__lead">Vous pouvez combiner plusieurs types de supports.</p>' +
+      '<div class="nfcs">' + rows + "</div>" +
+      '<div class="included"><p class="included__h">Pour chaque support</p>' + U.list(n.includes, "chips") + "</div>" +
+      '<p class="fine">' + esc(n.deliveryNote) + " Les supports sont facturés une seule fois. L'abonnement de votre page digitale reste obligatoire.</p></section>";
+  }
+
+  /* ---------- Étape 2 : fidélisation ---------- */
+  function subLoyalty(sel, ui, v) {
+    var l = P.loyalty, m = l.messaging;
+    var progs = [{ id: "", name: "Pas de programme de fidélité", none: true }].concat(l.programs).map(function (p) {
+      var checked = p.none ? !sel.loyalty.program && (sel.loyalty.messaging || ui.loyaltyNoneChosen) : sel.loyalty.program === p.id;
+      return U.choiceCard({ type: "radio", name: "program", id: "prog-" + (p.id || "none"), value: p.id, checked: checked,
+        action: "set-program", cls: "choice--plan" + (p.none ? " choice--none" : ""),
+        title: esc(p.name) + (p.none ? "" : '<span class="choice__prices">' + U.price(p.creation, "once") + '<span class="plus">+</span>' + U.price(p.monthly, "monthly") + "</span>"),
+        body: p.none ? '<span class="choice__text">Par exemple si vous souhaitez uniquement la messagerie automatisée.</span>'
+          : U.list(p.how) + '<span class="choice__ex">Exemple : ' + esc(p.example) + "</span>" });
+    }).join("");
+
+    var msg = U.choiceCard({ type: "checkbox", name: "messaging", id: "msg", value: "1", checked: sel.loyalty.messaging,
+      action: "toggle-msg", cls: "choice--plan choice--wide",
+      title: esc(m.name) + '<span class="choice__prices">' + U.price(m.creation, "once") + '<span class="plus">+</span>' + U.price(m.monthly, "monthly") + "</span>",
+      body: '<span class="choice__text">Canal prévu : ' + esc(m.channel.toLowerCase()) + ". " + esc(m.standaloneNote) + "</span>" + U.list(m.how) +
+        '<span class="choice__ex">Exemple : ' + esc(m.example) + "</span>" });
+
+    // Résumé de la combinaison, issu du moteur.
+    var q = C.computeQuote({ categories: { loyalty: true }, loyalty: sel.loyalty, digital: sel.digital, website: sel.website }, P);
+    var t = q.totals, combo = "";
+    if (t.loyaltyCreation > 0) {
+      var names = [];
+      var pr = C.findById(l.programs, sel.loyalty.program); if (pr) names.push(pr.shortName);
+      if (sel.loyalty.messaging) names.push("messagerie automatisée");
+      combo = '<div class="combo-now" aria-live="polite"><span>Votre choix : <b>' + esc(names.join(" + ")) + "</b></span>" +
+        "<span>" + U.price(t.loyaltyCreation, "once") + ' à la création</span><span>' + U.price(t.monthlyBy.loyalty, "monthly") + "</span></div>";
+    }
+
+    return '<header class="stephead"><h2 class="stephead__title">' + esc(l.title) + "</h2>" +
+      '<p class="stephead__lead">' + esc(l.intro) + "</p></header>" +
+      '<section class="block" aria-labelledby="h-prog"><div class="block__head"><h3 id="h-prog">Programme de fidélité</h3>' + U.badge("required") + "</div>" +
+      '<p class="block__lead">Tampons ou points : choisissez l\'un des deux, ou aucun. Chaque service choisi comprend un abonnement obligatoire.</p>' +
+      '<div class="plangrid plangrid--3" role="radiogroup" aria-labelledby="h-prog">' + progs + "</div></section>" +
+      '<section class="block" aria-labelledby="h-msg"><div class="block__head"><h3 id="h-msg">Messagerie automatisée</h3>' + U.badge("required") + "</div>" +
+      '<p class="block__lead">Facultative. Si vous la choisissez, son abonnement est obligatoire.</p>' + msg + "</section>" +
+      combo +
+      U.alertBox("info", "<b>Bon à savoir</b>" + U.list(l.notices, "plain")) +
+      errors(ui, "loyalty", v.issues.loyalty);
+  }
+
+  /* ---------- Étape 2 : site Internet ---------- */
+  function subWebsite(sel, ui, v) {
+    var w = P.website;
+    var forms = w.formulas.map(function (f) {
+      return U.choiceCard({ type: "radio", name: "formula", id: "f-" + f.id, value: f.id, checked: sel.website.formula === f.id,
+        action: "set-formula", cls: "choice--plan", title: esc(f.name) + U.price(f.price, "once"), body: U.list(f.includes) });
+    }).join("");
+    var maints = w.maintenances.map(function (m) {
+      return U.choiceCard({ type: "radio", name: "maint", id: "m-" + m.id, value: m.id, checked: sel.website.maintenance === m.id,
+        action: "set-maint", cls: "choice--plan" + (m.id === "none" ? " choice--none" : ""),
+        title: esc(m.name) + (m.id === "none" ? '<span class="price"><b>0</b>&nbsp;CHF<span class="price__per">/mois</span></span>' : U.price(m.price, "monthly")),
+        body: (m.inherits ? '<span class="choice__inherits">' + esc(m.inherits) + "</span>" : "") + U.list(m.includes) });
+    }).join("");
+    return '<header class="stephead"><h2 class="stephead__title">' + esc(w.title) + "</h2>" +
+      '<p class="stephead__lead">' + esc(w.intro) + "</p></header>" +
+      '<section class="block" aria-labelledby="h-form"><div class="block__head"><h3 id="h-form">Choisissez votre formule</h3>' + U.badge("once") + "</div>" +
+      '<div class="plangrid plangrid--3" role="radiogroup" aria-labelledby="h-form">' + forms + "</div>" +
+      '<p class="fine">' + esc(w.complexNote) + "</p></section>" +
+      '<section class="block" aria-labelledby="h-maint"><div class="block__head"><h3 id="h-maint">Souhaitez-vous une maintenance ?</h3>' + U.badge("optional") + "</div>" +
+      '<p class="block__lead">La maintenance n\'est pas obligatoire. Indiquez votre choix, y compris si vous n\'en voulez pas.</p>' +
+      '<div class="plangrid plangrid--4" role="radiogroup" aria-labelledby="h-maint">' + maints + "</div></section>" +
+      U.alertBox("info", "<b>Hébergement et nom de domaine</b>" + U.list(w.notices, "plain")) +
+      errors(ui, "website", v.issues.website);
+  }
+
+  function step2(sel, ui, v) {
+    var subs = store.subSteps();
+    var cur = subs[ui.sub] || subs[0];
+    var sub = '<div class="substeps"><p class="substeps__now">Partie ' + (ui.sub + 1) + " sur " + subs.length + "</p>" +
+      '<ol class="substeps__list">' + subs.map(function (s, i) {
+        return '<li><button type="button" class="substep' + (i === ui.sub ? " is-current" : "") + '" data-action="goto-sub" data-sub="' + i + '"' +
+          (i === ui.sub ? ' aria-current="step"' : "") + ">" + esc(s.label) + "</button></li>";
+      }).join("") + "</ol></div>";
+    var body = cur.id === "page" ? subPage(sel, ui, v) : cur.id === "nfc" ? subNfc(sel) : cur.id === "loyalty" ? subLoyalty(sel, ui, v) : subWebsite(sel, ui, v);
+    var last = ui.sub >= subs.length - 1;
+    return sub + body + navButtons(["prev", "Retour"], "next", last ? "Voir mon estimation" : "Continuer");
+  }
+
+  // Message après le retrait d'un service : les choix sont gardés, le retrait peut être annulé.
+  function removedNotice(ui) {
+    if (!ui.removed) return "";
+    return '<div class="undo" role="status"><span><b>' + esc(ui.removed.name) + "</b> a été retiré de votre estimation.</span>" +
+      '<button type="button" class="btn btn--ghost btn--sm" data-action="undo-remove">Annuler</button></div>';
+  }
+
+  // Rappels liés aux services choisis (frais de tiers, nom de domaine).
+  function contextualNotices(sel) {
+    var out = [];
+    if (sel.categories.loyalty && sel.loyalty.messaging) out.push(P.notices.contextual.messaging);
+    if (sel.categories.website) out.push(P.notices.contextual.website);
+    return out;
+  }
+
+  /* ---------- Étape 3 ---------- */
+  function step3(sel, ui, v, q) {
+    return '<header class="stephead"><h2 class="stephead__title">Votre projet</h2>' +
+      '<p class="stephead__lead">Voici le détail de votre sélection. Vous pouvez encore modifier ou retirer chaque service.</p></header>' +
+      removedNotice(ui) +
+      '<div class="recap">' + S.ticket(q, { editable: true }) + "</div>" +
+      '<section class="block" aria-labelledby="h-fin"><h3 id="h-fin" class="block__title">Récapitulatif financier</h3>' + S.financial(q) + "</section>" +
+      '<div class="mentions"><p>' + esc(P.notices.indicative) + "</p><p>" + esc(P.notices.vat) + "</p>" +
+        contextualNotices(sel).map(function (n) { return "<p>" + esc(n) + "</p>"; }).join("") + "</div>" +
+      root.AWS.quote.render(ui, q) +
+      navButtons(["prev", "Modifier mon offre"], null);
+  }
+
+  root.AWS.steps = {
+    render: function (sel, ui, q, v) {
+      var cats = []; ["digital", "loyalty", "website"].forEach(function (k) { if (sel.categories[k]) cats.push(k); });
+      var vv = { categories: cats, ok: v.ok, issues: v };
+      var main = ui.step === 1 ? step1(sel, ui, vv) : ui.step === 2 ? step2(sel, ui, vv) : step3(sel, ui, vv, q);
+      return { progress: progress(ui, vv), main: main };
+    }
+  };
+})(window);
+
+</script>
+  <!-- 4. Application -->
+  <script>
+/* ==========================================================================
+   APPLICATION — assemblage, navigation et gestion des événements.
+   ========================================================================== */
+(function (root) {
+  "use strict";
+  var P = root.AWS.PRICING, C = root.AWS.calc, U = root.AWS.ui, S = root.AWS.summary;
+  var store = root.AWS.store, steps = root.AWS.steps, home = root.AWS.home, quote = root.AWS.quote;
+  var app = document.getElementById("app");
+  var reduceMotion = root.matchMedia && root.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function compute() {
+    return { q: C.computeQuote(store.selection, P), v: C.validate(store.selection, P) };
+  }
+
+  /* ---------- Structure générale ---------- */
+  function header() {
+    return '<a class="skip" href="#content">Aller au contenu</a>' +
+      '<header class="top"><div class="top__in">' +
+        '<button type="button" class="brand" data-action="go-home">' + U.esc(P.studio.name) + "</button>" +
+        '<nav class="top__nav" aria-label="Navigation principale">' +
+          '<a class="top__link" href="#services" data-action="scroll-services">Nos services</a>' +
+          // Dans le configurateur, le bouton principal ramène à l'accueil (sans perdre les choix).
+          (store.ui.view === "config"
+            ? '<button type="button" class="btn btn--ghost btn--sm" data-action="go-home">Accueil</button>'
+            : '<button type="button" class="btn btn--primary btn--sm" data-action="start">Créer mon offre</button>') +
+        "</nav></div></header>";
+  }
+  function footer() {
+    return '<footer class="foot"><div class="foot__in">' +
+      '<p class="foot__brand">' + U.esc(P.studio.name) + "</p>" +
+      '<nav class="foot__nav" aria-label="Liens utiles">' +
+        '<a class="link" href="#services" data-action="scroll-services">Nos services</a>' +
+        '<button type="button" class="link" data-action="start">Créer mon offre</button></nav>' +
+      '<p>Contact : <span class="mail">' + U.esc(P.studio.quoteEmail) + "</span></p>" +
+      '<p class="fine">' + U.esc(P.notices.vat) + "</p></div></footer>";
+  }
+
+  function configView(q, v) {
+    var ui = store.ui, parts = steps.render(store.selection, ui, q, v);
+    var aside = ui.step === 3 ? "" :
+      '<aside class="cfg__aside" aria-label="Votre estimation"><div class="cfg__sticky" id="aside">' + asideInner(q) + "</div></aside>";
+    return '<div class="cfg' + (ui.step === 3 ? " cfg--final" : "") + '" id="cfg">' + parts.progress +
+      '<div class="cfg__grid"><div class="cfg__main" id="cfg-main">' + parts.main + "</div>" + aside + "</div></div>" +
+      (ui.step === 3 ? "" : mobileBar(q));
+  }
+  function asideInner(q) {
+    return S.ticket(q, {}) + '<p class="fine fine--aside">' + U.esc(P.notices.vat) + "</p>";
+  }
+  function mobileBar(q) {
+    var t = q.totals;
+    return '<div class="mbar" id="mbar">' +
+      '<div class="mbar__fig"><span>Une fois</span><b>' + U.chf(t.initial) + "</b></div>" +
+      '<div class="mbar__fig mbar__fig--m"><span>Chaque mois</span><b>' + U.chf(t.monthly) + "</b></div>" +
+      '<button type="button" class="btn btn--ghost btn--sm" data-action="open-sheet" aria-haspopup="dialog">Voir le détail</button></div>' +
+      '<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="Détail de votre estimation"' + (store.ui.sheet ? "" : " hidden") + ">" +
+        '<div class="sheet__backdrop" data-action="close-sheet"></div>' +
+        '<div class="sheet__panel"><button type="button" class="sheet__close btn btn--ghost btn--sm" data-action="close-sheet">Fermer</button>' +
+        S.ticket(q, {}) + '<p class="fine">' + U.esc(P.notices.vat) + "</p></div></div>";
+  }
+
+  /* ---------- Rendu ---------- */
+  function render(opts) {
+    opts = opts || {};
+    var r = compute();
+    if (opts.partial) {           // saisie de quantité : on ne remplace que les montants
+      var aside = document.getElementById("aside");
+      if (aside) aside.innerHTML = asideInner(r.q);
+      var mbar = document.getElementById("mbar");
+      if (mbar) { var figs = mbar.querySelectorAll(".mbar__fig b"); figs[0].textContent = U.chf(r.q.totals.initial); figs[1].textContent = U.chf(r.q.totals.monthly); }
+      var sheet = document.querySelector("#sheet .sheet__panel");
+      if (sheet) sheet.innerHTML = '<button type="button" class="sheet__close btn btn--ghost btn--sm" data-action="close-sheet">Fermer</button>' + S.ticket(r.q, {}) + '<p class="fine">' + U.esc(P.notices.vat) + "</p>";
+      return;
+    }
+    var active = document.activeElement && document.activeElement.id;
+    var y = root.scrollY;
+    app.innerHTML = header() + '<main id="content" tabindex="-1">' +
+      (store.ui.view === "home" ? home.render() : configView(r.q, r.v)) + "</main>" + footer();
+    document.body.classList.toggle("has-mbar", store.ui.view === "config" && store.ui.step !== 3);
+    document.body.classList.toggle("sheet-open", !!store.ui.sheet && store.ui.view === "config");
+    if (active && !opts.noFocus) { var el = document.getElementById(active); if (el) el.focus({ preventScroll: true }); }
+    if (!opts.scroll) root.scrollTo(0, y);
+  }
+  store.subscribe(render);
+
+  function scrollToEl(el) {
+    if (!el) return;
+    // Décalage = en-tête fixe + barre des services (si elle est collée en haut).
+    var off = 16, head = document.querySelector(".top"), nav = document.querySelector(".svcnav");
+    if (head) off += head.offsetHeight;
+    if (nav && el.closest && el.closest(".services") && el.id !== "services") off += nav.offsetHeight;
+    var top = el.getBoundingClientRect().top + root.scrollY - off;
+    root.scrollTo({ top: Math.max(0, top), behavior: reduceMotion ? "auto" : "smooth" });
+  }
+  function toConfigTop() {
+    var cfg = document.getElementById("cfg");
+    root.scrollTo({ top: cfg ? Math.max(0, cfg.getBoundingClientRect().top + root.scrollY - 70) : 0, behavior: "auto" });
+    var h = document.querySelector(".stephead__title"); if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+  }
+
+  /* ---------- Navigation ---------- */
+  function setHash(h) { try { if (location.hash !== "#" + h) history.pushState(null, "", "#" + h); } catch (e) {} }
+
+  function go(fn) { store.update(function (s, ui) { fn(s, ui); }, { scroll: true, noFocus: true }); toConfigTop(); }
+
+  function sectionIssues(section) {
+    var v = C.validate(store.selection, P);
+    return v[section] || [];
+  }
+
+  function next() {
+    var ui = store.ui;
+    if (ui.step === 1) {
+      if (!C.validate(store.selection, P).categories.length) return go(function (s, u) { u.step = 2; u.sub = 0; });
+      store.update(function (s, u) { u.showErrors.categories = true; });
+      return scrollToEl(document.getElementById("err-categories"));
+    }
+    if (ui.step === 2) {
+      var subs = store.subSteps(), cur = subs[ui.sub];
+      if (sectionIssues(cur.section).length) {
+        store.update(function (s, u) { u.showErrors[cur.section] = true; });
+        return scrollToEl(document.getElementById("err-" + cur.section));
+      }
+      if (ui.sub < subs.length - 1) return go(function (s, u) { u.sub++; });
+      return gotoStep(3);
+    }
+  }
+  function prev() {
+    var ui = store.ui;
+    if (ui.step === 3) return go(function (s, u) { u.step = 2; u.sub = store.subSteps().length - 1; u.quoteReady = false; });
+    if (ui.step === 2 && ui.sub > 0) return go(function (s, u) { u.sub--; });
+    if (ui.step === 2) return go(function (s, u) { u.step = 1; });
+    goHome();
+  }
+  function gotoStep(n) {
+    var v = C.validate(store.selection, P);
+    if (n === 1) return go(function (s, u) { u.step = 1; });
+    if (n === 2) {
+      if (v.categories.length) return gotoStep(1);
+      return go(function (s, u) { u.step = 2; if (u.sub >= store.subSteps().length) u.sub = 0; });
+    }
+    if (n === 3) {
+      if (v.ok) return go(function (s, u) { u.step = 3; u.sheet = false; });
+      // Aller à la première partie incomplète et montrer ce qui manque.
+      if (v.categories.length) return gotoStep(1);
+      var subs = store.subSteps();
+      for (var i = 0; i < subs.length; i++) if ((v[subs[i].section] || []).length) {
+        var idx = i, sec = subs[i].section;
+        go(function (s, u) { u.step = 2; u.sub = idx; u.showErrors[sec] = true; });
+        return scrollToEl(document.getElementById("err-" + sec));
+      }
+    }
+  }
+  function startConfig(cat) {
+    store.update(function (s, u) {
+      if (cat) s.categories[cat] = true;
+      u.view = "config"; u.step = 1; u.sub = 0;
+    }, { scroll: true, noFocus: true });
+    setHash("offre");
+    root.scrollTo(0, 0);
+    var h = document.querySelector(".stephead__title"); if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+  }
+  function goHome(target) {
+    store.update(function (s, u) { u.view = "home"; u.sheet = false; }, { scroll: true, noFocus: true });
+    setHash("accueil");
+    if (target) scrollToEl(document.getElementById(target)); else root.scrollTo(0, 0);
+  }
+
+  /* ---------- Événements ---------- */
+  function qtyChange(id, fn) {
+    var max = P.digital.nfc.maxQuantity;
+    store.update(function (s) { s.digital.nfc[id] = C.sanitizeQuantity(fn(C.sanitizeQuantity(s.digital.nfc[id], max)), max); });
+  }
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-action]");
+    if (!t) return;
+    var a = t.getAttribute("data-action");
+    switch (a) {
+      case "start": e.preventDefault(); return startConfig();
+      case "start-with": return startConfig(t.getAttribute("data-cat"));
+      case "go-home": return goHome();
+      case "scroll-services": e.preventDefault(); return store.ui.view === "home" ? scrollToEl(document.getElementById("services")) : goHome("services");
+      case "scroll-to": e.preventDefault(); return scrollToEl(document.getElementById(t.getAttribute("data-target")));
+      case "next": return next();
+      case "prev": return prev();
+      case "goto-step": return gotoStep(+t.getAttribute("data-step"));
+      case "goto-sub": var i = +t.getAttribute("data-sub"); return go(function (s, u) { u.sub = i; });
+      case "edit-section":
+        var sec = t.getAttribute("data-section"), subs = store.subSteps();
+        var idx = subs.findIndex(function (x) { return x.section === sec || (sec === "digital" && x.id === "page"); });
+        return go(function (s, u) { u.step = 2; u.sub = Math.max(0, idx); u.quoteReady = false; });
+      case "remove-section":
+        // Retrait d'un service : la catégorie sort du calcul, ses choix sont conservés pour « Annuler ».
+        var rid = t.getAttribute("data-section"), rname = P[rid].name;
+        store.update(function (s, u) {
+          s.categories[rid] = false;
+          u.removed = { id: rid, name: rname };
+          u.quoteReady = false;
+          if (!s.categories.digital && !s.categories.loyalty && !s.categories.website) { u.step = 1; u.sub = 0; }
+        }, { noFocus: true });
+        var undo = document.querySelector('[data-action="undo-remove"]'); if (undo) undo.focus({ preventScroll: true });
+        return;
+      case "undo-remove":
+        var back = store.ui.removed;
+        if (!back) return;
+        store.update(function (s, u) {
+          s.categories[back.id] = true; u.removed = null;
+          // Les choix restaurés étaient complets : on peut revenir directement à l'estimation.
+          if (u.step === 1 && C.validate(s, P).ok) u.step = 3;
+        }, { noFocus: true });
+        return;
+      case "qty-inc": return qtyChange(t.getAttribute("data-id"), function (n) { return n + 1; });
+      case "qty-dec": return qtyChange(t.getAttribute("data-id"), function (n) { return n - 1; });
+      case "open-quote":
+        store.update(function (s, u) { u.quoteOpen = true; }, { noFocus: true });
+        var f = document.getElementById("q-name"); if (f) { f.focus({ preventScroll: true }); scrollToEl(document.getElementById("quote")); }
+        return;
+      case "copy":
+        var r = compute(), text = S.text(r.q, store.ui.quoteReady ? store.ui.quote : null);
+        return quote.copy(text, function (status) {
+          store.update(function (s, u) { u.copyStatus = status; u.copyText = text; });
+          if (status === "manual") { var ta = document.getElementById("copy-text"); if (ta) { ta.focus(); ta.select(); } }
+        });
+      case "open-sheet": store.update(function (s, u) { u.sheet = true; }, { noFocus: true });
+        var c = document.querySelector(".sheet__close"); if (c) c.focus(); return;
+      case "close-sheet": store.update(function (s, u) { u.sheet = false; }, { noFocus: true });
+        var o = document.querySelector('[data-action="open-sheet"]'); if (o) o.focus(); return;
+    }
+  });
+
+  document.addEventListener("change", function (e) {
+    var t = e.target, a = t.getAttribute && t.getAttribute("data-action");
+    if (!a) return;
+    switch (a) {
+      case "toggle-cat": return store.update(function (s, u) {
+        s.categories[t.value] = t.checked;
+        if (s.categories.digital || s.categories.loyalty || s.categories.website) u.showErrors.categories = false;
+      });
+      case "toggle-opt": return store.update(function (s) {
+        var o = C.findById(P.digital.options, t.value);
+        if (t.checked) s.digital.options[t.value] = o.variants ? o.defaultVariant : true;
+        else delete s.digital.options[t.value];
+      });
+      case "menu-variant": return store.update(function (s) { s.digital.options.menu = t.value; });
+      case "set-sub": return store.update(function (s) { s.digital.subscription = t.value; });
+      case "set-program": return store.update(function (s, u) { s.loyalty.program = t.value || null; u.loyaltyNoneChosen = !t.value; });
+      case "toggle-msg": return store.update(function (s) { s.loyalty.messaging = t.checked; });
+      case "set-formula": return store.update(function (s) { s.website.formula = t.value; });
+      case "set-maint": return store.update(function (s) { s.website.maintenance = t.value; });
+      case "quote-marketing": store.ui.quote.marketing = t.checked; store.ui.quoteReady = false; return render({});
+      case "qty-set":
+        // Déjà enregistré pendant la saisie : on normalise l'affichage sans tout redessiner
+        // (un rendu complet ici annulerait le clic qui a provoqué la perte de focus).
+        var qid = t.getAttribute("data-id"), qv = C.sanitizeQuantity(t.value, P.digital.nfc.maxQuantity);
+        if (String(qv) !== t.value) t.value = qv;
+        if (store.selection.digital.nfc[qid] !== qv) store.update(function (s) { s.digital.nfc[qid] = qv; }, { partial: true });
+        var dec = document.querySelector('[data-action="qty-dec"][data-id="' + qid + '"]'); if (dec) dec.disabled = qv <= 0;
+        var box = t.closest(".nfc"); if (box) box.classList.toggle("is-on", qv > 0);
+        return;
+    }
+  });
+
+  document.addEventListener("input", function (e) {
+    var t = e.target, a = t.getAttribute && t.getAttribute("data-action");
+    if (a === "qty-set") {
+      var id = t.getAttribute("data-id"), it = C.findById(P.digital.nfc.items, id);
+      var n = C.sanitizeQuantity(t.value, P.digital.nfc.maxQuantity);
+      store.update(function (s) { s.digital.nfc[id] = n; }, { partial: true });
+      var sub = document.getElementById("nfcsub-" + id);
+      if (sub) sub.innerHTML = n > 0 ? "Sous-total : <b>" + U.chf(n * it.price) + "</b>" : "&nbsp;";
+    }
+    if (a === "quote-field") {
+      store.ui.quote[t.getAttribute("data-field")] = t.value;
+      if (store.ui.quoteReady) { store.ui.quoteReady = false; var rd = document.getElementById("quote-ready"); if (rd) rd.remove(); }
+    }
+  });
+
+  document.addEventListener("submit", function (e) {
+    if (e.target.getAttribute("data-action") !== "quote-submit") return;
+    e.preventDefault();
+    var errs = quote.validateForm(store.ui.quote);
+    store.update(function (s, u) { u.quoteErrors = errs; u.quoteReady = !Object.keys(errs).length; u.copyStatus = null; }, { noFocus: true });
+    if (Object.keys(errs).length) {
+      var first = document.querySelector(".field.has-error input, .field.has-error textarea");
+      if (first) { first.focus({ preventScroll: true }); scrollToEl(first); }
+    } else {
+      var rd = document.getElementById("quote-ready");
+      if (rd) { rd.focus({ preventScroll: true }); scrollToEl(rd); }
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && store.ui.sheet) { store.update(function (s, u) { u.sheet = false; }, { noFocus: true }); }
+  });
+
+  root.addEventListener("hashchange", function () {
+    var h = location.hash.replace("#", "");
+    if (h === "offre" && store.ui.view !== "config") { store.update(function (s, u) { u.view = "config"; }, { noFocus: true }); root.scrollTo(0, 0); }
+    else if (h === "accueil" && store.ui.view !== "home") { store.update(function (s, u) { u.view = "home"; u.sheet = false; }, { noFocus: true }); root.scrollTo(0, 0); }
+  });
+
+  // Toute nouvelle action efface le message « service retiré ».
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("[data-action]");
+    if (t && store.ui.removed && ["remove-section", "undo-remove"].indexOf(t.getAttribute("data-action")) < 0 &&
+        t.getAttribute("data-action") !== "copy") store.ui.removed = null;
+  }, true);
+
+  /* ---------- Démarrage ---------- */
+  var pricingErrors = C.checkPricing(P);
+  if (pricingErrors.length && root.console) console.error("Configuration tarifaire incohérente :\n" + pricingErrors.join("\n"));
+  if (location.hash === "#offre") store.ui.view = "config";
+  render({ scroll: true });
+})(window);
+
+</script>
+</body>
+</html>
